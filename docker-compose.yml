@@ -1,0 +1,13 @@
+version: "2.15.1"
+services:
+    db:
+        image: postgres:14
+        environment:
+            POSTGRES_DB: "MarketPlace"
+            POSTGRES_USER: "postgres_user"
+            POSTGRES_PASSWORD: "1234"
+        ports:
+            - "5432:5432"
+        volumes:
+            - .postgresVolumes:/var/lib/postgresql
+
