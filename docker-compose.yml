@@ -9,5 +9,8 @@ services:
         ports:
             - "5432:5432"
         volumes:
-            - .postgresVolumes:/var/lib/postgresql
+            - postgres_db:/var/lib/postgresql/data
 
+volumes:
+  postgres_db:
+      name: postgres_db
