@@ -1,4 +1,5 @@
 from django.db import models
+from objects.utils import unique_slugify
 
 
 class Item(models.Model):
@@ -6,8 +7,13 @@ class Item(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    amount = models.PositiveIntegerField
+    amount = models.PositiveIntegerField()
+    slug = models.SlugField(unique=True)
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
+
+    def save(self, *args, **kwargs):
+        unique_slugify(self, self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Товар"

@@ -9,6 +9,7 @@ class AdminPhotos(admin.StackedInline):
 @admin.register(Item)
 class AdminItem(admin.ModelAdmin):
     list_display = ('id', 'name', 'category', 'price')
+    readonly_fields = ('slug', )
     inlines = [AdminPhotos]
 
 

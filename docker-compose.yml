@@ -13,4 +13,4 @@ services:
 
 volumes:
   postgres_db:
-      name: postgres_db
+      name: postgres_db_marketplace
