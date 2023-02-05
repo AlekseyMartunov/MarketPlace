@@ -6,10 +6,10 @@ class Item(models.Model):
     """Класс для описания товара"""
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
     amount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True)
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
+    params = models.JSONField()
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.name)
@@ -29,6 +29,7 @@ class Photos(models.Model):
 class Category(models.Model):
     """Класс для описания категорий"""
     name = models.CharField(max_length=100)
+    allowed_params = models.JSONField()
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:

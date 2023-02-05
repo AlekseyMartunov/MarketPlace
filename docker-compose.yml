@@ -10,6 +10,7 @@ services:
             - "5432:5432"
         volumes:
             - postgres_db:/var/lib/postgresql/data
+        container_name: postgres_db_marketplace
 
 volumes:
   postgres_db:
