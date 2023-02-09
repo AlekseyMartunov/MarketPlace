@@ -5,15 +5,19 @@ from rest_framework import serializers
 
 
 class OnlyAllowedParams:
-    def __init__(self, key):
+    """
+    Класс для проверки данных jsonField
+    """
+    def __init__(self, key, indx):
         self._key = key
         self._allowed_params = None
+        self._index_for_data = indx
 
     def __call__(self, func):
         @functools.wraps(func)
         def decorated(*args, **kwargs):
             args = list(args)
-            args[1] = self._get_validated_data(args[1])
+            args[self._index_for_data] = self._get_validated_data(args[self._index_for_data])
             result = func(*args, **kwargs)
             return result
         return decorated

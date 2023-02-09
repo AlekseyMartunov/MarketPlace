@@ -7,7 +7,9 @@ urlpatterns = [
         'get': 'list',
         'post': 'create'
     })),
-    path('items/<int:pk>', ItemListAPI.as_view({
+    path('items/<slug:slug>', ItemListAPI.as_view({
         'get': 'retrieve',
+        'put': 'update',
+        'delete': 'destroy'
     })),
 ]
