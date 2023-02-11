@@ -29,7 +29,7 @@ class Photos(models.Model):
 class Category(models.Model):
     """Класс для описания категорий"""
     name = models.CharField(max_length=100)
-    allowed_params = models.JSONField()
+    allowed_params = models.JSONField(null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:

@@ -4,19 +4,6 @@ import functools
 from rest_framework import serializers
 
 
-# {
-#     "name": "new Name 33jgkflf3",
-#     "description": "1",
-#     "amount": 300,
-#     "params": {
-#         "type": "some_text",
-#         "mass": 500,
-#         "price": "some string",
-#         "color": true
-#     },
-#     "category": 1
-# }
-
 class OnlyAllowedParams:
     """
      Базовый класс для проверки данных jsonField
@@ -45,7 +32,9 @@ class OnlyAllowedParams:
 
         if len(val_data) < len(self._allowed_params):
             empty_keys = set(self._allowed_params.keys()).difference(val_data.keys())
-            raise serializers.ValidationError(f"In params missing keys {empty_keys}")
+            raise serializers.ValidationError(
+                {"params": [f"missing keys: " + " ,".join(empty_keys)]}
+            )
         return val_data
 
     def _validate_values(self, data: dict):
@@ -54,13 +43,17 @@ class OnlyAllowedParams:
             'string': str,
             'bool': bool,
         }
-
+        errors = {}
         for key, value in self._allowed_params.items():
             if types_dict[value] != type(data[key]):
-                raise serializers.ValidationError(f"Type {key} must be {value}")
+                errors[key] = value
+        if errors:
+            raise serializers.ValidationError(
+                {key: [f'This field should be {value}'] for key, value in errors.items()}
+            )
 
     def _set_allowed_params(self, data: dict):
-        self._allowed_params = data.get('category').allowed_params[self._key]
+        self._allowed_params = data.get('category').allowed_params
 
 
 class OnlyAllowedParamsCreate(OnlyAllowedParams):
