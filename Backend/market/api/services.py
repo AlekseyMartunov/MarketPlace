@@ -11,6 +11,8 @@ class OnlyAllowedParams:
     def __init__(self, validate_field: str):
         self._key = validate_field
         self._allowed_params = None
+        self._errors = {}
+        self._is_valid = True
 
     def __call__(self, *args, **kwargs):
         raise "This method should be overridden"
@@ -25,17 +27,20 @@ class OnlyAllowedParams:
     def _validate_data(self, data: dict) -> dict:
         val_keys = self._validate_keys(data)
         self._validate_values(val_keys)
+        if not self._is_valid:
+            self._raise_exception()
         return val_keys
 
     def _validate_keys(self, data: dict) -> dict:
-        val_data = {key: value for key, value in data.items() if key in self._allowed_params.keys()}
+        val_keys = {key: value for key, value in data.items() if key in self._allowed_params.keys()}
 
-        if len(val_data) < len(self._allowed_params):
-            empty_keys = set(self._allowed_params.keys()).difference(val_data.keys())
-            raise serializers.ValidationError(
-                {"params": [f"missing keys: " + " ,".join(empty_keys)]}
-            )
-        return val_data
+        if len(val_keys) < len(self._allowed_params):
+            empty_keys = set(self._allowed_params.keys()).difference(val_keys.keys())
+            self._is_valid = False
+            self._errors.update({
+                key: ["missing key", ] for key in empty_keys
+            })
+        return val_keys
 
     def _validate_values(self, data: dict):
         types_dict = {
@@ -43,17 +48,22 @@ class OnlyAllowedParams:
             'string': str,
             'bool': bool,
         }
-        errors = {}
-        for key, value in self._allowed_params.items():
-            if types_dict[value] != type(data[key]):
-                errors[key] = value
-        if errors:
-            raise serializers.ValidationError(
-                {key: [f'This field should be {value}'] for key, value in errors.items()}
-            )
+
+        # data -> {price: 1000, ...}   self._allowed_params -> {price: "number", ...}
+
+        for key, value in data.items():
+            type_validator = self._allowed_params.get(key)
+            if types_dict[type_validator] != type(data[key]):
+                self._is_valid = False
+                self._errors.update({
+                    key: [f"This field should be {type_validator}", ]
+                })
 
     def _set_allowed_params(self, data: dict):
         self._allowed_params = data.get('category').allowed_params
+
+    def _raise_exception(self):
+        raise serializers.ValidationError(self._errors)
 
 
 class OnlyAllowedParamsCreate(OnlyAllowedParams):
