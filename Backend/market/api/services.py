@@ -25,6 +25,8 @@ class OnlyAllowedParams:
         return date
 
     def _validate_data(self, data: dict) -> dict:
+        self._errors = {}
+
         val_keys = self._validate_keys(data)
         self._validate_values(val_keys)
         if not self._is_valid:
@@ -63,6 +65,7 @@ class OnlyAllowedParams:
         self._allowed_params = data.get('category').allowed_params
 
     def _raise_exception(self):
+        self._is_valid = True
         raise serializers.ValidationError(self._errors)
 
 
