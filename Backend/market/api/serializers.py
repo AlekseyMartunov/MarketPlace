@@ -22,7 +22,7 @@ class ItemDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('name', 'description', 'amount', 'category', 'params', 'slug')
+        fields = ('name', 'description', 'amount', 'category', 'params', 'shop', 'slug')
         read_only_fields = ('slug', )
 
 

@@ -15,7 +15,7 @@ class OnlyAllowedParams:
         self._is_valid = True
 
     def __call__(self, *args, **kwargs):
-        raise "This method should be overridden"
+        raise NotImplementedError()
 
     def _get_validated_data(self, not_valid_data: dict) -> dict:
         date = deepcopy(not_valid_data)

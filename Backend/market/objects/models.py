@@ -1,6 +1,8 @@
 from django.db import models
 from objects.utils import unique_slugify
 
+from django.contrib.auth.models import User
+
 
 class Item(models.Model):
     """Класс для описания товара"""
@@ -9,11 +11,15 @@ class Item(models.Model):
     amount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True)
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
+    shop = models.ForeignKey('Shop', on_delete=models.CASCADE)
     params = models.JSONField()
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.name)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "Товар"
@@ -38,6 +44,18 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Shop(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=1000)
+    owner = models.ForeignKey(User, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = "Магазин"
+        verbose_name_plural = "Магазины"
+
+
 
 
 

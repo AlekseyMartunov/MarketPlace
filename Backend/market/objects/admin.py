@@ -1,5 +1,5 @@
 from django.contrib import admin
-from objects.models import Item, Photos, Category
+from objects.models import Item, Photos, Category, Shop
 
 
 class AdminPhotos(admin.StackedInline):
@@ -21,4 +21,10 @@ class AdminSubCategory(admin.StackedInline):
 class AdminCategory(admin.ModelAdmin):
     list_display = ('name', 'parent')
     inlines = [AdminSubCategory]
+
+
+@admin.register(Shop)
+class AdminShop(admin.ModelAdmin):
+    list_display = ('name', 'owner')
+
 
