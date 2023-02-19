@@ -14,7 +14,7 @@ class ItemListAPI(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ('destroy', 'update', 'create'):
-            permission_classes = [ShopOwner, IsAdminUser]
+            permission_classes = [IsAdminUser | ShopOwner]
         else:
             permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
