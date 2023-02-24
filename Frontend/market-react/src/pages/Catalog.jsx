@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Server from "../API/Server";
+import ItemsList from "../components/ItemsList";
 
 const Catalog = () => {
+    const [items, setItems] = useState([])
+
+    useEffect(() => {
+        getItems()
+    }, [])
+
     async function getItems() {
-       const responce = await Server.getItems()
-        console.log(responce)
+        const responce = await Server.getItems()
+        setItems(responce)
     }
 
     return (
         <div>
-            <button onClick={getItems}>GET DATA</button>
+            <ItemsList items={items}/>
         </div>
     );
 };
