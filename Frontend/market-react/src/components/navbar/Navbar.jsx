@@ -7,9 +7,11 @@ const Navbar = () => {
 
     return (
         <div className={classes.navbar}>
-            {routes.map((router) =>
-                <div className={classes.element}>
-                    <Link to={router.link} className={classes.link}>{router.name}</Link>
+            {routes.map((router, indx) =>
+                <div className={classes.element} key={indx}>
+                    <Link className={classes.link} to={router.link}>
+                        {router.name}
+                    </Link>
                 </div>
             )}
         </div>

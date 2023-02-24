@@ -6,8 +6,9 @@ import {routes} from "./index";
 const AppRouter = () => {
     return (
         <Routes>
-            {routes.map(route =>
+            {routes.map((route, indx) =>
                 <Route
+                    key={indx}
                     path={route.link}
                     element={route.component}
                 />
