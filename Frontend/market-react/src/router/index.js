@@ -1,5 +1,5 @@
-import Catalog from "../pages/Catalog";
-import Login from "../pages/Login";
+import Catalog from "../pages/Catalog/Catalog";
+import Login from "../pages/Login/Login";
 
 export const routes = [
     {link: "/catalog", name: "Каталог", component: <Catalog/>, exact: true},

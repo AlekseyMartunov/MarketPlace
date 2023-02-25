@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import Server from "../API/Server";
-import ItemsList from "../components/ItemsList";
+import Server from "../../API/Server";
+import ItemsList from "./ItemsList";
 
 const Catalog = () => {
     const [items, setItems] = useState([])
