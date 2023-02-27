@@ -12,6 +12,7 @@ const Catalog = () => {
     async function getItems() {
         const responce = await Server.getItems()
         setItems(responce)
+        console.log(responce)
     }
 
     return (
