@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     # 'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'corsheaders',
     # 'djoser',
 
     'objects.apps.ObjectsConfig',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -168,6 +170,11 @@ SIMPLE_JWT = {
 }
 
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -176,6 +183,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+# use when use image __str__ method
+HOST = "http://127.0.0.1:8000"
 
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'

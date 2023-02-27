@@ -8,7 +8,7 @@ import Rating from "./Rating";
 const ItemElement = (props) => {
     return (
         <div className={styles.Item_element}>
-            <Images photos={'http://127.0.0.1:8000/media/photos/2023/02/24/some_image.jpg'}/>
+            <Images photos={props.item.images}/>
             <Description item={props.item}/>
             <Rating/>
             <MyButton>Подробнее...</MyButton>

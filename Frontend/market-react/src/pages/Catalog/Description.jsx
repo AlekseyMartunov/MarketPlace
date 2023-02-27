@@ -12,6 +12,10 @@ const Description = ({item}) => {
                 <div className={styles.Description__element}>Осталось:</div>
                 <div className={styles.Description__element}>{item.amount}</div>
             </div>
+            <div className={styles.Description__content}>
+                <div className={styles.Description__element}>Цена:</div>
+                <div className={styles.Description__element}>{item.amount}</div>
+            </div>
         </div>
     );
 };

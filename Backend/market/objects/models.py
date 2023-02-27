@@ -1,6 +1,7 @@
+from market.settings import HOST
+
 from django.db import models
 from objects.utils import unique_slugify
-
 from django.contrib.auth.models import User
 
 
@@ -28,8 +29,11 @@ class Item(models.Model):
 
 class Photos(models.Model):
     """Класс для хранения изображений"""
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name="images", on_delete=models.CASCADE)
     photos = models.ImageField(upload_to="photos/%Y/%m/%d/")
+
+    def __str__(self):
+        return f"{HOST}/media/{self.photos.name}"
 
 
 class Category(models.Model):
