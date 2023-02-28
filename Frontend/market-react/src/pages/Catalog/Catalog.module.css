@@ -1,6 +1,10 @@
+.ItemList {
+    display: flex;
+}
+
 .Item_element {
-    width: 300px;
-    height: 500px;
+    width: 320px;
+    height: 525px;
     margin: 20px;
     text-align: center;
     border: 1px solid black;
@@ -11,12 +15,45 @@
     box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, 0.2);
 }
 
-.Images {
+.ImageSlider {
     width: 250px;
     height: 250px;
     margin: 20px 10px 10px;
     border-radius: 10%;
 }
+
+.ImageSlider__imageContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.ImageSlider__icon {
+    cursor: pointer;
+    margin: auto;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 100%;
+}
+
+.ImageSlider__icon:hover{
+    color: deepskyblue;
+}
+
+.ImageSlider__dotsContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.ImageSlider__dots {
+    margin: 0 2px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.ImageSlider__dots__selected {
+    color: deepskyblue;
+}
+
 
 .Description__name {
     font-size: 23px;

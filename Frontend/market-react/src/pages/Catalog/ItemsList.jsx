@@ -1,9 +1,11 @@
 import React from 'react';
 import ItemElement from "./ItemElement";
+import styles from "./Catalog.module.css";
+
 
 const ItemsList = ({items}) => {
     return (
-        <div>
+        <div className={styles.ItemList}>
             {items.map(item =>
                 <ItemElement item={item} key={item.pk}/>
             )}
@@ -12,3 +14,4 @@ const ItemsList = ({items}) => {
 };
 
 export default ItemsList;
+
