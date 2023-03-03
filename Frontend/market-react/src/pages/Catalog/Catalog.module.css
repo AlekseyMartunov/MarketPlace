@@ -1,5 +1,10 @@
-.ItemList {
+.Catalog {
     display: flex;
+}
+
+.ItemList {
+    display: grid;
+    grid-template-columns: auto auto auto;
 }
 
 .Item_element {
@@ -69,6 +74,12 @@
     text-align: left;
     font-size: 18px;
     margin: 5px;
+}
+
+.CategoruMenu {
+    width: 200px;
+    height: 500px;
+    background-color: rgba(43,42,20,0.67);
 }
 
 

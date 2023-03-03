@@ -175,7 +175,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -183,7 +183,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-# use when use image __str__ method
+# when use image __str__ method
 HOST = "http://127.0.0.1:8000"
 
 STATIC_URL = 'static/'

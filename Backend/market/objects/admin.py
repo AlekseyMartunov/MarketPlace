@@ -8,18 +8,20 @@ class AdminPhotos(admin.StackedInline):
 
 @admin.register(Item)
 class AdminItem(admin.ModelAdmin):
-    list_display = ('id', 'name', 'category')
+    list_display = ('id', 'name', 'price', 'category')
     readonly_fields = ('slug', )
     inlines = [AdminPhotos]
 
 
 class AdminSubCategory(admin.StackedInline):
     model = Category
+    prepopulated_fields = {'slug': ('name',)}
 
 
 @admin.register(Category)
 class AdminCategory(admin.ModelAdmin):
     list_display = ('name', 'parent')
+    prepopulated_fields = {'slug': ('name',)}
     inlines = [AdminSubCategory]
 
 

@@ -1,14 +1,21 @@
-from market.settings import HOST
-
+from django.core.validators import MinValueValidator
 from django.db import models
 from objects.utils import unique_slugify
 from django.contrib.auth.models import User
+
+from market.settings import HOST
 
 
 class Item(models.Model):
     """Класс для описания товара"""
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
+    price = models.DecimalField(
+        max_digits=14,
+        decimal_places=2,
+        validators=[MinValueValidator(limit_value=0.01), ]
+    )
+    created_time = models.DateTimeField(auto_now_add=True)
     amount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True)
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
@@ -39,6 +46,7 @@ class Photos(models.Model):
 class Category(models.Model):
     """Класс для описания категорий"""
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
     allowed_params = models.JSONField(null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
@@ -58,6 +66,9 @@ class Shop(models.Model):
     class Meta:
         verbose_name = "Магазин"
         verbose_name_plural = "Магазины"
+
+    def __str__(self):
+        return self.name
 
 
 

@@ -14,7 +14,7 @@ const Description = ({item}) => {
             </div>
             <div className={styles.Description__content}>
                 <div className={styles.Description__element}>Цена:</div>
-                <div className={styles.Description__element}>{item.amount}</div>
+                <div className={styles.Description__element}>{item.price}</div>
             </div>
         </div>
     );
@@ -22,10 +22,3 @@ const Description = ({item}) => {
 
 export default Description;
 
-
-// amount: 18681
-// images: [{photos: "/media/photos/2023/02/24/some_image.jpg"}] (1)
-// name: "tesjfkft1"
-// pk: 2
-// shop: 1
-// slug: "tesjfkft1"
