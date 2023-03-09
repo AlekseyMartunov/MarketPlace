@@ -1,4 +1,0 @@
-Django==4.1.7
-djangorestframework==3.14.0
-djangorestframework_simplejwt==5.2.2
-pytest==7.2.2
