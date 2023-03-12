@@ -1,13 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from "./Catalog.module.css";
+import Server from "../../API/Server";
 
 
-const CategoruMenu = () => {
+
+const CategoriesMenu = ({cats, setSubCatsList, addIntoCatsList}) => {
+    const [header, setHeader] = useState("")
+
+    async function getSubCats(cat) {
+        const response = await Server.getCats(cat.slug)
+        setSubCatsList(response)
+        addIntoCatsList(cat.name)
+        setHeader(cat.name)
+    }
+
     return (
         <div className={styles.CategoruMenu}>
-            some text
+            <div className={styles.CategoryHeader}>{header}</div>
+            {cats.map(cat =>
+                <div
+                    className={styles.CategoryElement}
+                    onClick={() => getSubCats(cat)}
+                >
+                    {cat.name}
+                </div>
+            )}
         </div>
     );
 };
 
-export default CategoruMenu;
+export default CategoriesMenu;

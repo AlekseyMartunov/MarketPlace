@@ -9,18 +9,6 @@ const ItemsList = ({items}) => {
             {items.map(item =>
                 <ItemElement item={item} key={item.pk}/>
             )}
-            {items.map(item =>
-                <ItemElement item={item} key={item.pk}/>
-            )}
-            {items.map(item =>
-                <ItemElement item={item} key={item.pk}/>
-            )}
-            {items.map(item =>
-                <ItemElement item={item} key={item.pk}/>
-            )}
-            {items.map(item =>
-                <ItemElement item={item} key={item.pk}/>
-            )}
         </div>
     );
 };

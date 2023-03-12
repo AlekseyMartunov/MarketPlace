@@ -77,9 +77,40 @@
 }
 
 .CategoruMenu {
-    width: 200px;
+    width: 250px;
     height: 500px;
-    background-color: rgba(43,42,20,0.67);
+    background: rgba(43,43,43,0.99);
+    border-bottom-right-radius: 15px;
+}
+
+.CategoryHeader {
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    background-color: teal;
+}
+
+.CategoryElement {
+    text-align: left;
+    font-size: 20px;
+    color: white;
+    padding: 5px;
+}
+
+.CategoryElement:hover {
+    background-color: deepskyblue;
+}
+
+.CategoryList {
+    text-align: left;
+    font-size: 20px;
+    color: white;
+    width: 800px;
+    height: 30px;
+    background: rgba(43,43,43,0.99);
+    margin: 10px;
+    padding: 10px;
+    border-radius: 15px;
 }
 
 
