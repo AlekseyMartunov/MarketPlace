@@ -34,12 +34,19 @@ const Catalog = () => {
         setCatsList([...catsList, cat])
     }
 
+    function clearCatList() {
+        setCatsList([])
+        setCats([])
+        getCats()
+    }
+
     return (
         <div className={styles.Catalog}>
             <СategoriesMenu
                 cats={cats}
                 setSubCatsList={setSubCatsList}
                 addIntoCatsList={addIntoCatsList}
+                clearCatList={clearCatList}
             />
             <div>
                 <CategoryList cats={catsList}/>

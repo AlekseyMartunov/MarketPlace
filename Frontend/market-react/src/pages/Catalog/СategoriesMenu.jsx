@@ -4,7 +4,7 @@ import Server from "../../API/Server";
 
 
 
-const CategoriesMenu = ({cats, setSubCatsList, addIntoCatsList}) => {
+const CategoriesMenu = ({cats, setSubCatsList, addIntoCatsList, clearCatList}) => {
     const [header, setHeader] = useState("")
 
     async function getSubCats(cat) {
@@ -12,6 +12,11 @@ const CategoriesMenu = ({cats, setSubCatsList, addIntoCatsList}) => {
         setSubCatsList(response)
         addIntoCatsList(cat.name)
         setHeader(cat.name)
+    }
+
+    function clearHeader() {
+        setHeader("")
+        clearCatList()
     }
 
     return (
@@ -25,6 +30,12 @@ const CategoriesMenu = ({cats, setSubCatsList, addIntoCatsList}) => {
                     {cat.name}
                 </div>
             )}
+            <div
+                className={styles.CategoryBack}
+                onClick={() => clearHeader()}
+            >
+                Назад
+            </div>
         </div>
     );
 };

@@ -1,15 +1,17 @@
 import React from 'react';
 import styles from "./Catalog.module.css";
 
-const CategoryList = ({cats}) => {
+const CategoryList = ({cats, clearList}) => {
     return (
         <div>
         {cats.length > 0 ? (
                 <div className={styles.CategoryList}>
-                    {cats.join("  -->  ")}
+                    <div>{cats.join(" \\ ")}</div>
                 </div>
             ):(
-                <div></div>
+            <div className={styles.CategoryList}>
+                Выберите категори....
+            </div>
             )}
         </div>
     );
