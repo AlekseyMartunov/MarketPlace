@@ -79,8 +79,8 @@
 .CategoruMenu {
     width: 250px;
     height: auto;
-    min-height: 100px;
-    max-height: 1000px;
+    padding: 5px;
+    margin-bottom: 10px;
     background: rgba(43,43,43,0.99);
     border-bottom-right-radius: 15px;
 }
@@ -104,7 +104,7 @@
 }
 
 .CategoryBack {
-    margin-top: 10px;
+    margin: 20px;
     text-align: center;
     font-size: 20px;
     line-height: 30px;

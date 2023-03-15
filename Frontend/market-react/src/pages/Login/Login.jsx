@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 const Login = () => {
+    const [price, setPrice] = useState("Price")
     return (
         <div>
-            Login
+           login
         </div>
     );
 };
