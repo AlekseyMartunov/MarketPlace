@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Catalog.module.css'
-import MyButton from "../../components/myButton/MyButton";
+import MyButton from "../../../components/myButton/MyButton";
 import ImageSlider from "./ImageSlider";
 import Description from "./Description";
 import Rating from "./Rating";

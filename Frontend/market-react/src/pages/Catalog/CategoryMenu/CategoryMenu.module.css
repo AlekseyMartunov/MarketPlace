@@ -1,0 +1,18 @@
+.container {
+    font-size: 20px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-around;
+}
+
+.element {
+    margin: 40px;
+}
+
+.head {
+    padding-bottom: 15px;
+}
+
+.link:hover {
+    color: deepskyblue;
+}
