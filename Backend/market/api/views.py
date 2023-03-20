@@ -4,8 +4,7 @@ from rest_framework.response import Response
 
 from api.permissions import ShopOwner
 from objects.models import Item, Category
-from api.serializers import ItemListSerializer, ItemDetailSerializer, \
-    CategoryListSerializer, CategoryDetailSerializer
+from api.serializers import ItemListSerializer, ItemDetailSerializer, CategoryDetailSerializer
 
 
 class ItemListAPI(viewsets.ModelViewSet):
@@ -40,12 +39,12 @@ class CategoriesAPI(viewsets.ModelViewSet):
 
     def list(self, request):
         queryset = Category.objects.filter(parent=None)
-        serializer = CategoryListSerializer(queryset, many=True)
+        serializer = CategoryDetailSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, slug, *args, **kwargs):
         queryset = Category.objects.filter(parent__slug=slug)
-        serializer = CategoryListSerializer(queryset, many=True)
+        serializer = CategoryDetailSerializer(queryset, many=True)
         return Response(serializer.data)
 
 

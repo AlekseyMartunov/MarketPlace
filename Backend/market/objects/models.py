@@ -8,8 +8,8 @@ from market.settings import HOST
 
 class Item(models.Model):
     """Класс для описания товара"""
-    name = models.CharField(max_length=255)
-    description = models.CharField(max_length=1000)
+    name = models.CharField(max_length=200)
+    description = models.TextField(max_length=1000)
     price = models.DecimalField(
         max_digits=14,
         decimal_places=2,
@@ -18,7 +18,7 @@ class Item(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     amount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True)
-    category = models.ForeignKey('Category', on_delete=models.PROTECT)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
     shop = models.ForeignKey('Shop', on_delete=models.CASCADE)
     params = models.JSONField()
 
@@ -47,8 +47,8 @@ class Category(models.Model):
     """Класс для описания категорий"""
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
-    allowed_params = models.JSONField(null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    allowed_params = models.JSONField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Категория"
