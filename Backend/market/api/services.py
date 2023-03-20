@@ -1,28 +1,28 @@
 import functools
 from rest_framework import serializers
-from objects.models import Category
-
-# allowed params {
-# "mass": "number",
-# "color": {
-#       "choice": [red, blue, green, black],
-#       "many": False}
-# }
 
 
 class NumberValidator:
+    """
+    Класс для проверки числовых значений
+    """
     def is_valid(self, value: int|float) -> bool:
         return type(value) in (int, float)
 
 
 class ChoseValidator:
+    """
+    Класс проверки
+    """
     def __init__(self, params: dict):
         self.choice = params["choice"]
         self.many = params["many"]
 
     def is_valid(self, value: list) -> bool:
-        # if not isinstance(value, list) or value:
-        #     return False
+        if not isinstance(value, list):
+            return False
+        if not value:
+            return False
         if not self.many and len(value) > 1:
             return False
         for element in value:
@@ -32,10 +32,42 @@ class ChoseValidator:
         return True
 
 
-
 class OnlyAllowedParams:
     """
-    Базовый класс для проверки данных jsonField
+    Базовый класс для проверки данных поля "params" модели Item.
+    По задумке, модель Item служит для описания основных/общих параметров
+    товара, а в поле "params" у каждого товара свои дополнительные характеристики.
+
+    Этот класс служит для валидации входных данных. "Разрешенные" поля и типы их
+    значений хранятся в модели "Category" в поле "allowed_params"
+
+    Пример:
+
+    allowed_params: {
+    "mass": "number",
+    "color": {
+          "choice": [red, blue, green, black],
+          "many": False}
+    }
+
+    На основании поля "allowed_params" из модели "Category" происходит валидация входных
+    данных.
+
+    Конечная запись в базе может выглядеть вот так:
+
+    {
+    "name": "Арбуз",
+    "description": "Очень сладкий арбуз",
+    "amount": 1000,
+    "price": 300.00,
+    "category": 4,
+    "params": {
+        "mass": 500,
+        "color": ["green"]
+    },
+    "shop": 1
+}
+
     """
 
     def __init__(self):
@@ -43,15 +75,7 @@ class OnlyAllowedParams:
         self.errors = {}
 
     def __call__(self, func, *args, **kwargs):
-        @functools.wraps(func)
-        def decorated(paren_class, validated_data):
-            print(validated_data)
-            self._set_allowed_params(validated_data['category'])
-            new_data = self._validate_data(validated_data["params"])
-            validated_data["params"] = new_data
-            return func(paren_class, validated_data)
-
-        return decorated
+        raise NotImplementedError("This method should be override")
 
     def _validate_data(self, data):
         data = self._validate_keys(data)
@@ -61,6 +85,8 @@ class OnlyAllowedParams:
         return data
 
     def _validate_keys(self, data):
+        # Функция проверяет входные ключи, в случае несоответствия
+        # в атрибут "errors" вносится соответсвующая информация
         val_data = {key: value for key, value in data.items() if key in self.allowed_params.keys()}
 
         if len(self.allowed_params) > len(val_data):
@@ -92,3 +118,28 @@ class OnlyAllowedParams:
         err = self.errors
         self.errors = {}
         raise serializers.ValidationError(err)
+
+
+class OnlyAllowedParamsCreate(OnlyAllowedParams):
+    def __call__(self, func, *args, **kwargs):
+        @functools.wraps(func)
+        def decorated(paren_class, validated_data):
+            self._set_allowed_params(validated_data['category'])
+            new_data = self._validate_data(validated_data["params"])
+            validated_data["params"] = new_data
+            return func(paren_class, validated_data)
+
+        return decorated
+
+
+class OnlyAllowedParamsUpdate(OnlyAllowedParams):
+    def __call__(self, func, *args, **kwargs):
+        @functools.wraps(func)
+        def decorated(paren_class, instance, validated_data):
+            self._set_allowed_params(validated_data['category'])
+            new_data = self._validate_data(validated_data["params"])
+            validated_data["params"] = new_data
+            return func(paren_class, instance, validated_data)
+
+        return decorated
+

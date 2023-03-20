@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from objects.models import Item, Category
-from api.services import OnlyAllowedParams
+from api.services import OnlyAllowedParamsCreate, OnlyAllowedParamsUpdate
 
 
 class ItemListSerializer(serializers.ModelSerializer):
@@ -15,9 +15,13 @@ class ItemListSerializer(serializers.ModelSerializer):
 
 
 class ItemDetailSerializer(serializers.ModelSerializer):
-    @OnlyAllowedParams()
+    @OnlyAllowedParamsCreate()
     def create(self, validated_data):
         return super().create(validated_data)
+
+    @OnlyAllowedParamsUpdate()
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
 
     class Meta:
         model = Item
