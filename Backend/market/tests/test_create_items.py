@@ -1,15 +1,16 @@
 import pytest
 
+
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.test import APIClient
-from objects.models import Category, User, Shop
-
+from objects.models import Category, User, Shop, Item
 
 url = "http://127.0.0.1:8000/api/v1/items"
 
 
 @pytest.fixture
 def set_up():
+
     user_1 = User.objects.create_user(
         username='John',
         password='jlen63beatlesu4o',
@@ -24,9 +25,11 @@ def set_up():
         name='test_cat_1',
         allowed_params={
             "mass": "number",
-            "color": "bool",
-            "price": "number",
-            "text": "string"
+            "color": {
+                    "choice": ["red", "blue", "green", "black"],
+                    "many": False
+            }
+
         }
     )
 
@@ -43,34 +46,36 @@ def test_create(set_up):
     data = {
         "name": "test",
         "description": "2",
-        "amount": 30704,
+        "amount": 10,
+        "price": 500,
         "category": 1,
         "shop": 1,
         "params": {
             "mass": 500,
-            "color": True,
-            "price": 500,
-            "text": "some text",
-            "new": 123
+            "color": ["blue", ]
         }
     }
+
+    response = client.post(url, data, format='json')
+
+    assert response.status_code == 201
+    time = Item.objects.get(name="test").created_time
+
     true_data = {
         "name": "test",
         "description": "2",
-        "amount": 30704,
+        "amount": 10,
+        "price": "500.00",
         "category": 1,
         "shop": 1,
         "slug": "test",
         "params": {
             "mass": 500,
-            "color": True,
-            "price": 500,
-            "text": "some text"
-
-        }
+            "color": ["blue", ]
+        },
+        "created_time": time.strftime("%Y-%m-%d %H:%M:%S")
     }
-    response = client.post(url, data, format='json')
-    assert response.status_code == 201
+
     assert response.data == true_data
 
 
@@ -224,6 +229,11 @@ def test_create_two_calls(set_up):
     response = client.post(url, data_2, format='json')
     assert response.status_code == 400
     assert response.data == true_data_2
+
+
+
+
+
 
 
 
