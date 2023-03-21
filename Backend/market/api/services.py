@@ -102,7 +102,7 @@ class OnlyAllowedParams:
             field = self.allowed_params[key]
             validator = self._get_validator_for_field(field)
             if not validator.is_valid(data[key]):
-                self.errors.update({key: "Wrong type"})
+                self.errors.update({key: "wrong type"})
         return data
 
     def _set_allowed_params(self, category):

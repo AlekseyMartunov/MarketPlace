@@ -26,17 +26,18 @@ def set_up():
     Category.objects.create(
         name='test_cat_1',
         allowed_params={
-            "mass": "number"
+            "mass": "number",
         }
     )
     Item.objects.create(
         name="test_name",
         description="test",
         amount=300,
+        price=500,
         category_id=1,
         shop_id=1,
         params={
-        "mass": 500
+            "mass": 500
         }
     )
     return user, user_owner
@@ -53,27 +54,34 @@ def test_update_ower(set_up):
     data = {
         "name": "test_name",
         "description": "test",
-        "amount": 400,
+        "amount": 10,
+        "price": 500,
         "category": 1,
         "shop": 1,
         "params": {
-            "mass": 500,
-        }
-    }
-    true_data = {
-        "name": "test_name",
-        "description": "test",
-        "amount": 400,
-        "category": 1,
-        "shop": 1,
-        "slug": "test_name",
-        "params": {
-            "mass": 500,
+            "mass": 600,
         }
     }
 
     response = client.put(url, data, format='json')
     assert response.status_code == 200
+
+
+    time = Item.objects.get(name="test_name").created_time
+
+    true_data = {
+        "name": "test_name",
+        "description": "test",
+        "amount": 10,
+        "price": "500.00",
+        "category": 1,
+        "shop": 1,
+        "params": {
+            "mass": 600,
+        },
+        "slug": "test_name",
+        "created_time": time.strftime("%Y-%m-%d %H:%M:%S")
+    }
     assert response.data == true_data
 
 
@@ -88,15 +96,16 @@ def test_update_another_user(set_up):
     data = {
         "name": "test_name",
         "description": "test",
-        "amount": 400,
+        "amount": 10,
+        "price": 500,
         "category": 1,
         "shop": 1,
         "params": {
-            "mass": 500,
+            "mass": 600,
         }
     }
     true_data = {
-        "detail": "You do not have permission to perform this action."
+        "detail": "У вас недостаточно прав для выполнения данного действия."
     }
 
     response = client.put(url, data, format='json')
