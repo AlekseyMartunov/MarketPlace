@@ -123,11 +123,11 @@ class OnlyAllowedParams:
 class OnlyAllowedParamsCreate(OnlyAllowedParams):
     def __call__(self, func, *args, **kwargs):
         @functools.wraps(func)
-        def decorated(paren_class, validated_data):
+        def decorated(instance, validated_data):
             self._set_allowed_params(validated_data['category'])
             new_data = self._validate_data(validated_data["params"])
             validated_data["params"] = new_data
-            return func(paren_class, validated_data)
+            return func(instance, validated_data)
 
         return decorated
 
@@ -135,11 +135,11 @@ class OnlyAllowedParamsCreate(OnlyAllowedParams):
 class OnlyAllowedParamsUpdate(OnlyAllowedParams):
     def __call__(self, func, *args, **kwargs):
         @functools.wraps(func)
-        def decorated(paren_class, instance, validated_data):
+        def decorated(instance, object, validated_data):
             self._set_allowed_params(validated_data['category'])
             new_data = self._validate_data(validated_data["params"])
             validated_data["params"] = new_data
-            return func(paren_class, instance, validated_data)
+            return func(instance, object, validated_data)
 
         return decorated
 

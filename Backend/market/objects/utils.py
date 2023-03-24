@@ -1,4 +1,5 @@
 import re
+from transliterate import translit
 from django.template.defaultfilters import slugify
 
 
@@ -19,6 +20,7 @@ def unique_slugify(instance, value, slug_field_name='slug', queryset=None,
     slug_len = slug_field.max_length
 
     # Sort out the initial slug, limiting its length if necessary.
+    value = convert_russian_characters(value)
     slug = slugify(value)
     if slug_len:
         slug = slug[:slug_len]
@@ -70,3 +72,8 @@ def _slug_strip(value, separator='-'):
             re_sep = re.escape(separator)
         value = re.sub(r'^%s+|%s+$' % (re_sep, re_sep), '', value)
     return value
+
+
+def convert_russian_characters(value: str) -> str:
+    return translit(value, "ru", reversed=True)
+
