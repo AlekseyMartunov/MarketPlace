@@ -1,3 +1,5 @@
+import os
+
 from django.core.validators import MinValueValidator
 from django.db import models
 from objects.utils import unique_slugify
@@ -41,6 +43,12 @@ class Photos(models.Model):
 
     def __str__(self):
         return f"{HOST}/media/{self.photos.name}"
+
+    def delete(self):
+        """Автоматическое удаление изображений при удалении объекта модели Item"""
+        if os.path.exists(self.photos.path):
+            os.remove(self.photos.path)
+        return super().delete()
 
 
 class Category(models.Model):
