@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Server from "../../../API/Server";
 import ItemsList from "./ItemsList";
 import styles from "./Catalog.module.css";
+import Filter from "./Filter";
 
-
-
-const Catalog = () => {
+const Catalog = (props) => {
     const [items, setItems] = useState([])
 
     useEffect(() => {
@@ -20,10 +19,10 @@ const Catalog = () => {
     return (
         <div className={styles.Catalog}>
             <div>
-                Тут будет фильтр
+                <Filter/>
             </div>
             <div>
-                {/*<CategoryList />*/}
+                <div>SOME TEXT</div>
                 <ItemsList items={items}/>
             </div>
         </div>

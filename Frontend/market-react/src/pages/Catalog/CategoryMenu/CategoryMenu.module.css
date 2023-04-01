@@ -5,6 +5,17 @@
     justify-content: space-around;
 }
 
+.head {
+    height: 20px;
+    width: 150px;
+    color: white;
+    padding: 10px;
+    background-color: rgba(43,43,43,0.99);
+    text-align: center;
+    border: 1px solid black;
+
+}
+
 .element {
     margin: 40px;
 }
