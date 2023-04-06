@@ -22,7 +22,6 @@ class Item(models.Model):
     slug = models.SlugField(unique=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     shop = models.ForeignKey('Shop', on_delete=models.CASCADE)
-    params = models.JSONField()
 
     def save(self, *args, **kwargs):
         unique_slugify(self, self.name)
@@ -56,7 +55,6 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    allowed_params = models.JSONField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Категория"

@@ -26,7 +26,11 @@ def set_up():
     Category.objects.create(
         name='test_cat_1',
         allowed_params={
-            "mass": "number",
+            "mass": {
+                "type": "number",
+                "min": 0,
+                "max": 1000
+            },
         }
     )
     Item.objects.create(

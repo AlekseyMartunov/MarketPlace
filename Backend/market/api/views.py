@@ -38,14 +38,15 @@ class CategoriesAPI(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request):
-        queryset = Category.objects.filter(parent=None)
+        queryset = Category.objects.all()
         serializer = CategoryDetailSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, slug, *args, **kwargs):
-        queryset = Category.objects.filter(parent__slug=slug)
+        queryset = Category.objects.filter(slug=slug)
         serializer = CategoryDetailSerializer(queryset, many=True)
         return Response(serializer.data)
+
 
 
 

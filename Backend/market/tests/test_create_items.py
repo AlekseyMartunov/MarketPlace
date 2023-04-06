@@ -1,5 +1,6 @@
 import pytest
 
+# export DJANGO_SETTINGS_MODULE=market.settings
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.test import APIClient
@@ -23,8 +24,13 @@ def set_up():
     cat_1 = Category.objects.create(
         name='test_cat_1',
         allowed_params={
-            "mass": "number",
+            "mass": {
+                "type": "number",
+                "min": 0,
+                "max": 10000
+            },
             "color": {
+                    "type": "choice",
                     "choice": ["red", "blue", "green", "black"],
                     "many": False
             }
@@ -151,6 +157,51 @@ def test_create_wrong_type_and_missing_key(set_up):
 
 
 @pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_create_wrong_number_type(set_up):
+    client, shop, category = set_up
+    data = {
+        "name": "test",
+        "description": "2",
+        "amount": 10,
+        "price": 500,
+        "category": 1,
+        "shop": 1,
+        "params": {
+            "mass": -100,
+            "color": ["some another color", ]
+        }
+    }
+    true_data = {
+        "mass": "wrong type",
+        "color": "wrong type"
+    }
+
+    response = client.post(url, data, format='json')
+    assert response.status_code == 400
+    assert response.data == true_data
+
+    data = {
+        "name": "test",
+        "description": "2",
+        "amount": 10,
+        "price": 500,
+        "category": 1,
+        "shop": 1,
+        "params": {
+            "mass": 30_000,
+            "color": ["green", ]
+        }
+    }
+    true_data = {
+        "mass": "wrong type",
+    }
+
+    response = client.post(url, data, format='json')
+    assert response.status_code == 400
+    assert response.data == true_data
+
+
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
 def test_create_two_calls(set_up):
     client, shop, category = set_up
     # data for first call
@@ -214,13 +265,23 @@ def set_up_many_params():
     cat_1 = Category.objects.create(
         name='test_cat_1',
         allowed_params={
-            "mass": "number",
-            "price": "number",
+            "mass": {
+                    "type": "number",
+                    "min": 100,
+                    "max": 500,
+            },
+            "price": {
+                    "type": "number",
+                    "min": 0,
+                    "max": 100000,
+            },
             "color": {
+                    "type": "choice",
                     "choice": ["red", "blue", "green", "black"],
                     "many": True
             },
             "status": {
+                "type": "choice",
                 "choice": ["vip", "all", "private"],
                 "many": False
             }
@@ -306,6 +367,8 @@ def test_wrong_fields_type_many_params(set_up_many_params):
     response = client.post(url, data, format='json')
     assert response.status_code == 400
     assert response.data == true_data
+
+
 
 
 
