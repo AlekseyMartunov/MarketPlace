@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Server from "../../API/Server";
 import ItemsList from "./ItemsList";
 import styles from "./Catalog.module.css";
+import Filter from "./Filter";
 
 
 const Catalog = (props) => {
@@ -18,7 +19,7 @@ const Catalog = (props) => {
 
     return (
         <div className={styles.Catalog}>
-            <div>filter will be here</div>
+            <Filter/>
             <div>
                 <ItemsList items={items}/>
             </div>

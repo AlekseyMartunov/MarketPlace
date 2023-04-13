@@ -17,7 +17,7 @@ class ItemDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('name', 'description', 'amount', 'price', 'category', 'params', 'shop', 'slug', 'created_time')
+        fields = ('name', 'description', 'amount', 'price', 'category', 'shop', 'slug', 'created_time')
         read_only_fields = ('slug', 'created_time')
 
 
