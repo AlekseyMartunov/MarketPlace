@@ -1,21 +1,34 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { useSearchParams } from "react-router-dom";
 import styles from "./Catalog.module.css";
 
 const FilterByParams = () => {
-    const [rating, setRating] = useState(0)
-    const [minPrice, setMinPrice] = useState(0)
-    const [maxPrice, setMaxPrice] = useState(9999999999)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [params, setParams] = useState({})
 
-    function updateRating(event) {
-        setRating(event.target.value)
+    useEffect(() => {
+        updateAllFields()
+    }, [])
+
+    function updateAllFields() {
+        if (searchParams.get("rating")) updateRating(searchParams.get("rating"))
+        if (searchParams.get("min_price")) updateMinPrice(searchParams.get("min_price"))
+        if (searchParams.get("max_price")) updateMaxPrice(searchParams.get("max_price"))
     }
 
-    function updateMinPrice(event) {
-        setMinPrice(event.target.value)
+    function updateRating(value) {
+        params.rating = value
+        setSearchParams(params)
     }
 
-    function updateMaxPrice(event) {
-        setMaxPrice(event.target.value)
+    function updateMinPrice(value) {
+        params.min_price = value
+        setSearchParams(params)
+    }
+
+    function updateMaxPrice(value) {
+        params.max_price = value
+        setSearchParams(params)
     }
 
     return (
@@ -23,27 +36,30 @@ const FilterByParams = () => {
             <div className={styles.Filter__inputHeader}>Цена</div>
             <div className={styles.Filter__inputBox}>
                 <input
-                    onChange={updateMinPrice}
+                    onChange={(e) => updateMinPrice(e.target.value)}
                     type="text"
                     placeholder="цена от"
+                    value={searchParams.get("min_price") || ""}
                 />
                 <input
-                    onChange={updateMaxPrice}
+                    onChange={(e) => updateMaxPrice(e.target.value)}
                     type="text"
                     placeholder="цена до"
+                    value={searchParams.get("max_price") || ""}
                 />
             </div>
             <div className={styles.Filter__inputHeader}>Минимальный рейтинг</div>
             <div className={styles.Filter__inputBox}>
                 <input
-                    onChange={updateRating}
+                    onChange={(e) => updateRating(e.target.value)}
                     type="range"
                     min="0"
                     max="5"
-                    step="0.1"/>
+                    step="0.1"
+                    value={searchParams.get("rating") || 0}/>
             </div>
             <div className={styles.Filter__rating}>
-                {rating}
+                {searchParams.get("rating") || 0}
             </div>
         </div>
     );

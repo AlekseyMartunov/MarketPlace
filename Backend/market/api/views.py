@@ -54,6 +54,21 @@ class CategoriesAPI(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class FilterListItems(generics.ListAPIView):
+    """
+    Класс, реализующий фильтрацию в запросе
+    """
+
+    # username = self.request.query_params.get('username')
+    # if username is not None:
+    #     queryset = queryset.filter(purchaser__username=username)
+
+    queryset = Item.objects.all()
+    serializer_class = ItemListSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ItemFilter
+
+
 
 
 

@@ -2,8 +2,13 @@ import axios from "axios";
 
 
 export default class Server {
-    static async getItems() {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/items')
+    static async getItems(url="") {
+        if (url === "") {
+            let url = 'http://127.0.0.1:8000/api/v1/search-items'
+            const response = await axios.get(url)
+            return response.data
+        }
+        const response = await axios.get(url)
         return response.data
     }
 

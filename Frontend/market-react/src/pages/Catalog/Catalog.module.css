@@ -113,3 +113,35 @@
     font-size: 1.2em;
     text-align: center;
 }
+
+.Filter__button_space {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.Filter__button_search {
+    margin: 5px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid;
+    font-size: 0.9em;
+    background-color: forestgreen;
+}
+.Filter__button_reset {
+    margin: 5px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid;
+    font-size: 0.9em;
+    background-color: rgb(164, 20, 20);
+}
+
+.Filter__button_search:hover {
+    background-color: #2fd52f;
+}
+
+.Filter__button_reset:hover {
+    background-color: rgb(232, 26, 26);
+}

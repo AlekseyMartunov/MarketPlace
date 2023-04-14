@@ -17,12 +17,15 @@ const Catalog = (props) => {
         setItems(response)
     }
 
+    async function getURL(url) {
+        const response = await Server.getItems(url)
+        setItems(response)
+    }
+
     return (
         <div className={styles.Catalog}>
-            <Filter/>
-            <div>
-                <ItemsList items={items}/>
-            </div>
+            <Filter getURL={getURL}/>
+            <ItemsList items={items}/>
         </div>
     );
 };
