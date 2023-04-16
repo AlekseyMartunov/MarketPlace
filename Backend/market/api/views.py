@@ -2,6 +2,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
+from api.service import MyOrderingFilter
+
 
 from api.permissions import ShopOwner
 from objects.models import Item, Category
@@ -50,18 +52,12 @@ class FilterListItems(generics.ListAPIView):
     """
     Класс, реализующий фильтрацию в запросе
     """
-    # def get_queryset(self):
-    #     queryset = Item.objects.all()
-    #     category = self.request.query_params.get('category')
-    #     if category is not None:
-    #         queryset = queryset.filter(category=category)
-    #     return queryset
-
-
     queryset = Item.objects.all()
     serializer_class = ItemListSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.DjangoFilterBackend, MyOrderingFilter)
     filterset_class = ItemFilter
+    ordering_fields = ("price", )
+
 
 
 

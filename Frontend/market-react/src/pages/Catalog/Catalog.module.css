@@ -145,3 +145,26 @@
 .Filter__button_reset:hover {
     background-color: rgb(232, 26, 26);
 }
+
+.Ordering__content {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.Ordering__header {
+    font-family: Arial;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.Ordering__content_box {
+    margin: 5px;
+    font-family: Arial;
+    font-size: 0.9em;
+    text-align: left;
+    margin-left: 25px;
+}
+
+.Ordering__content_box input {
+    margin-right: 10px;
+}

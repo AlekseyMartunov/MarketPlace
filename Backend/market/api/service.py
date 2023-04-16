@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+from rest_framework.filters import OrderingFilter
 from django_filters import rest_framework as filters
 from objects.models import Item
 
@@ -10,3 +12,7 @@ class ItemFilter(filters.FilterSet):
     class Meta:
         model = Item
         fields = ['price', 'category']
+
+
+class MyOrderingFilter(OrderingFilter):
+    ordering_param = _('order')

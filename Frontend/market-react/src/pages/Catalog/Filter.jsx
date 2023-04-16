@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from "./Catalog.module.css";
 import FilterByParams from "./FilterByParams";
 import {useSearchParams} from "react-router-dom";
+import Ordering from "./Ordering";
 
 
 const Filter = ({getItemsByURLParams}) => {
@@ -22,7 +23,7 @@ const Filter = ({getItemsByURLParams}) => {
     return (
         <div className={styles.Filter__contend}>
             <FilterByParams/>
-            <div>сортировка</div>
+            <Ordering/>
             <div>выбор магазина</div>
             <div>выбор категории</div>
             <div className={styles.Filter__button_space}>

@@ -4,31 +4,32 @@ import styles from "./Catalog.module.css";
 
 const FilterByParams = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [params, setParams] = useState({})
-
-    useEffect(() => {
-        updateAllFields()
-    }, [])
-
-    function updateAllFields() {
-        if (searchParams.get("rating")) updateRating(searchParams.get("rating"))
-        if (searchParams.get("min_price")) updateMinPrice(searchParams.get("min_price"))
-        if (searchParams.get("max_price")) updateMaxPrice(searchParams.get("max_price"))
-    }
 
     function updateRating(value) {
-        params.rating = value
-        setSearchParams(params)
+        const queryParams = {}
+        for (const entry of searchParams.entries()) {
+            queryParams[entry[0]] = entry[1]
+        }
+        queryParams["rating"] = value
+        setSearchParams(queryParams)
     }
 
     function updateMinPrice(value) {
-        params.min_price = value
-        setSearchParams(params)
+        const queryParams = {}
+        for (const entry of searchParams.entries()) {
+            queryParams[entry[0]] = entry[1]
+        }
+        queryParams["min_price"] = value
+        setSearchParams(queryParams)
     }
 
     function updateMaxPrice(value) {
-        params.max_price = value
-        setSearchParams(params)
+        const queryParams = {}
+        for (const entry of searchParams.entries()) {
+            queryParams[entry[0]] = entry[1]
+        }
+        queryParams["max_price"] = value
+        setSearchParams(queryParams)
     }
 
     return (
