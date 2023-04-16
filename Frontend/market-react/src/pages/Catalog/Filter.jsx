@@ -4,7 +4,7 @@ import FilterByParams from "./FilterByParams";
 import {useSearchParams} from "react-router-dom";
 
 
-const Filter = ({getURL}) => {
+const Filter = ({getItemsByURLParams}) => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     function resetFilter() {
@@ -12,7 +12,11 @@ const Filter = ({getURL}) => {
     }
 
     function search() {
-        getURL(window.location.href)
+        const queryParams = {}
+        for (const entry of searchParams.entries()) {
+            queryParams[entry[0]] = entry[1]
+        }
+        getItemsByURLParams(queryParams)
     }
 
     return (

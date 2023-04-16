@@ -15,20 +15,12 @@ class ItemListAPI(viewsets.ModelViewSet):
     lookup_field = 'slug'
     serializer_class = ItemDetailSerializer
 
-    # filter_backends = [filters.DjangoFilterBackend]
-    # filterset_class = ItemFilter
-
     def get_permissions(self):
         if self.action in ('destroy', 'update', 'create'):
             permission_classes = [IsAdminUser | ShopOwner]
         else:
             permission_classes = [AllowAny, ]
         return [permission() for permission in permission_classes]
-
-    def list(self, request):
-        queryset = Item.objects.all()
-        serializer = ItemListSerializer(queryset, many=True)
-        return Response(serializer.data)
 
 
 class CategoriesAPI(viewsets.ModelViewSet):
@@ -58,10 +50,13 @@ class FilterListItems(generics.ListAPIView):
     """
     Класс, реализующий фильтрацию в запросе
     """
+    # def get_queryset(self):
+    #     queryset = Item.objects.all()
+    #     category = self.request.query_params.get('category')
+    #     if category is not None:
+    #         queryset = queryset.filter(category=category)
+    #     return queryset
 
-    # username = self.request.query_params.get('username')
-    # if username is not None:
-    #     queryset = queryset.filter(purchaser__username=username)
 
     queryset = Item.objects.all()
     serializer_class = ItemListSerializer

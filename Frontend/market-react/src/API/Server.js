@@ -2,12 +2,22 @@ import axios from "axios";
 
 
 export default class Server {
-    static async getItems(url="") {
-        if (url === "") {
-            let url = 'http://127.0.0.1:8000/api/v1/search-items'
+    static async getItems(queryParams) {
+        let url = 'http://localhost:8000/api/v1/search-items'
+
+        if (queryParams === undefined) {
             const response = await axios.get(url)
             return response.data
         }
+
+        url += '?'
+
+        for (const [key, value] of Object.entries(queryParams)) {
+            const keyValue = `${key}=${value}&`
+            url += keyValue
+        }
+
+        console.log(url)
         const response = await axios.get(url)
         return response.data
     }
