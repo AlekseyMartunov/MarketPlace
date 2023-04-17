@@ -28,5 +28,6 @@ class AdminCategory(admin.ModelAdmin):
 @admin.register(Shop)
 class AdminShop(admin.ModelAdmin):
     list_display = ('name', 'owner')
+    prepopulated_fields = {'slug': ('name', 'owner')}
 
 

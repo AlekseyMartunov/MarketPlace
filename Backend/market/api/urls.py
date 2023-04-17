@@ -1,6 +1,6 @@
-from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from api.views import ItemListAPI, CategoriesAPI, FilterListItems
+from django.urls import path
+from api.views import ItemListAPI, CategoriesAPI, FilterListItems, ShopApi
 
 
 urlpatterns = [
@@ -21,7 +21,9 @@ urlpatterns = [
         'put': 'update',
         'delete': 'destroy'
     })),
-    path('search-items/', FilterListItems.as_view()),
+    path('search-items', FilterListItems.as_view()),
+    path('shops/<slug:category_slug>', ShopApi.as_view()),
+
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     ]

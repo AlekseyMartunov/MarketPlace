@@ -7,10 +7,6 @@ import {useSearchParams} from "react-router-dom";
 const Ordering = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    // useEffect(() => {
-    //
-    // }, [])
-
     function updateOrderingParams(value) {
         const queryParams = {}
         for (const entry of searchParams.entries()) {
@@ -22,7 +18,7 @@ const Ordering = () => {
 
     return (
         <div className={styles.Ordering__content}>
-            <p className={styles.Ordering__header}>Сортировка:</p>
+            <p className={styles.Filter__Header}>Сортировка:</p>
             <div className={styles.Ordering__content_box}>
                 <input type="radio" id="Ordering"
                        name="ord" value="price"

@@ -34,22 +34,22 @@ const FilterByParams = () => {
 
     return (
         <div>
-            <div className={styles.Filter__inputHeader}>Цена</div>
+            <div className={styles.Filter__Header}>Цена</div>
             <div className={styles.Filter__inputBox}>
                 <input
                     onChange={(e) => updateMinPrice(e.target.value)}
                     type="text"
-                    placeholder="цена от"
+                    placeholder="  цена от"
                     value={searchParams.get("min_price") || ""}
                 />
                 <input
                     onChange={(e) => updateMaxPrice(e.target.value)}
                     type="text"
-                    placeholder="цена до"
+                    placeholder="  цена до"
                     value={searchParams.get("max_price") || ""}
                 />
             </div>
-            <div className={styles.Filter__inputHeader}>Минимальный рейтинг</div>
+            <div className={styles.Filter__Header}>Минимальный рейтинг</div>
             <div className={styles.Filter__inputBox}>
                 <input
                     onChange={(e) => updateRating(e.target.value)}

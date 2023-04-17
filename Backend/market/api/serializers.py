@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from objects.models import Item, Category
+from objects.models import Item, Category, Shop
 
 
 class ItemListSerializer(serializers.ModelSerializer):
@@ -25,6 +25,12 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('pk', 'name', 'slug', 'parent')
+
+
+class ShopListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shop
+        fields = ('pk', 'name', 'slug')
 
 
 

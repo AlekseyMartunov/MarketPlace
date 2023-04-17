@@ -8,12 +8,11 @@
 }
 
 .Item_element {
-    width: 300px;
+    width: 275px;
     height: 525px;
     margin: 10px;
     text-align: center;
-    border: 1px solid black;
-
+    border-radius: 25px;
 }
 
 .Item_element:hover {
@@ -35,9 +34,6 @@
 .ImageSlider__icon {
     cursor: pointer;
     margin: auto;
-    padding: 2px;
-    border: 1px solid black;
-    border-radius: 100%;
 }
 
 .ImageSlider__icon:hover{
@@ -77,10 +73,18 @@
 }
 
 .Filter__contend {
-    width: 280px;
-    height: 500px;
-    margin-top: 10px;
+    width: 290px;
+    height: 450px;
+    margin: 10px;
+    border-radius: 15px;
     background: teal;
+    border: 1px solid;
+
+
+}
+
+.Filter__contend:hover {
+    box-shadow: 7px 7px 17px 7px rgba(0, 0, 0, 0.5);
 }
 
 .Filter__inputBox {
@@ -88,7 +92,7 @@
     justify-content: space-around;
 }
 
-.Filter__inputHeader {
+.Filter__Header {
     margin-top: 20px;
     margin-bottom: 7px;
     font-family: Arial;
@@ -118,8 +122,6 @@
     display: flex;
     justify-content: center;
 }
-
-
 
 .Filter__button_search {
     margin: 5px;
@@ -151,12 +153,6 @@
     margin-bottom: 15px;
 }
 
-.Ordering__header {
-    font-family: Arial;
-    font-size: 1.2em;
-    text-align: center;
-}
-
 .Ordering__content_box {
     margin: 5px;
     font-family: Arial;
@@ -168,3 +164,50 @@
 .Ordering__content_box input {
     margin-right: 10px;
 }
+
+.Shop__dropdown {
+    margin-left: 39px;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+}
+
+.Shop__dropdown_content li {
+    list-style-type: none;
+    font-family: Arial;
+    font-size: 0.9em;
+}
+
+.Shop__dropdown_content li:hover {
+    color: deepskyblue;
+}
+
+.Shop__dropdown_content {
+    display: none;
+    width: auto;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid;
+    min-width: 200px;
+    box-shadow: 0px 16px 32px 0px rgba(0,0,0,0.4);
+    border-radius: 10px;
+    font-size: 1.3em;
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.Shop__dropdown:hover .Shop__dropdown_content {
+    display: block;
+}
+
+.Shop__current_shop {
+    min-width: 200px;
+    font-family: Arial;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: white;
+}
+

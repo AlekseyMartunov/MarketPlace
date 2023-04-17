@@ -1,18 +1,21 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser, AllowAny
+from rest_framework import generics
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
-from api.service import MyOrderingFilter
 
-
+from rest_framework.permissions import IsAdminUser, AllowAny
 from api.permissions import ShopOwner
-from objects.models import Item, Category
-from api.serializers import ItemListSerializer, ItemDetailSerializer, CategoryDetailSerializer
+from api.service import MyOrderingFilter
 from api.service import ItemFilter
-from rest_framework import generics
+from objects.models import Item, Category, Shop
+from api.serializers import ItemListSerializer, ItemDetailSerializer, CategoryDetailSerializer,\
+                            ShopListSerializer
 
 
 class ItemListAPI(viewsets.ModelViewSet):
+    """
+    Класс для работы с товарами
+    """
     queryset = Item.objects.all()
     lookup_field = 'slug'
     serializer_class = ItemDetailSerializer
@@ -26,6 +29,9 @@ class ItemListAPI(viewsets.ModelViewSet):
 
 
 class CategoriesAPI(viewsets.ModelViewSet):
+    """
+    Класс для работы с категориями
+    """
     queryset = Category.objects.all()
     lookup_field = 'slug'
     serializer_class = CategoryDetailSerializer
@@ -38,25 +44,41 @@ class CategoriesAPI(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def list(self, request):
-        queryset = Category.objects.all()
+        queryset = Category.objects.filter(parent=None)
         serializer = CategoryDetailSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, slug, *args, **kwargs):
-        queryset = Category.objects.filter(slug=slug)
+        queryset = Category.objects.filter(parent__slug=slug)
         serializer = CategoryDetailSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
 class FilterListItems(generics.ListAPIView):
     """
-    Класс, реализующий фильтрацию в запросе
+    Класс, для реализации фильтрации и сортировки в запросе
     """
     queryset = Item.objects.all()
     serializer_class = ItemListSerializer
     filter_backends = (filters.DjangoFilterBackend, MyOrderingFilter)
     filterset_class = ItemFilter
     ordering_fields = ("price", )
+
+
+class ShopApi(generics.ListAPIView):
+    """
+    Класс для получения параметров во время фильтрации товаров.
+    Пользователь выбирает категорию товара, и в окне фильтрации появляются
+    магазины с такой категорий
+    """
+    queryset = Category.objects.all()
+    lookup_field = 'categories__name'
+    serializer_class = ShopListSerializer
+
+    def get_queryset(self):
+        category = self.kwargs['category_slug']
+        return Shop.objects.filter(categories__slug=category)
+
 
 
 

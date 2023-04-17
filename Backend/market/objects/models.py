@@ -41,6 +41,7 @@ class Photos(models.Model):
     photos = models.ImageField(upload_to="photos/%Y/%m/%d/")
 
     def __str__(self):
+        """Функция возвращает путь по которому находится изображение"""
         return f"{HOST}/media/{self.photos.name}"
 
     def delete(self):
@@ -67,6 +68,8 @@ class Category(models.Model):
 class Shop(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
+    categories = models.ManyToManyField(Category)
+    slug = models.SlugField(unique=True)
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
 
     class Meta:
