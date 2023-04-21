@@ -132,7 +132,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication'
     ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",
+
 }
 
 

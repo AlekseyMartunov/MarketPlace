@@ -61,6 +61,10 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
+    def save(self, *args, **kwargs):
+        unique_slugify(self, self.name)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -75,6 +79,10 @@ class Shop(models.Model):
     class Meta:
         verbose_name = "Магазин"
         verbose_name_plural = "Магазины"
+
+    def save(self, *args, **kwargs):
+        unique_slugify(self, self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
