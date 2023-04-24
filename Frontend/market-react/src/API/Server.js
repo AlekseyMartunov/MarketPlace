@@ -19,17 +19,17 @@ export default class Server {
         return response.data
     }
 
-    // static async getCats(slug="") {
-    //     let url;
-    //     if (slug !== "") {
-    //         url = 'http://localhost:8000/api/v1/categories' + '/' + slug
-    //     }
-    //     else {
-    //         url = 'http://localhost:8000/api/v1/categories'
-    //     }
-    //     const response = await axios.get(url)
-    //     return response.data
-    // }
+    static async getCats(slug="") {
+        let url;
+        if (slug !== "") {
+            url = 'http://localhost:8000/api/v1/categories' + '/' + slug
+        }
+        else {
+            url = 'http://localhost:8000/api/v1/categories'
+        }
+        const response = await axios.get(url)
+        return response.data
+    }
 
     static async getShops(category) {
         let url = 'http://localhost:8000/api/v1/shops/' + category
