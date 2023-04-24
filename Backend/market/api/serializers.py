@@ -7,10 +7,11 @@ class ItemListSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
+    shop_name = serializers.CharField(source='shop.name')
 
     class Meta:
         model = Item
-        fields = ('name', 'slug', 'shop', 'amount', 'pk', 'images', 'price')
+        fields = ('name', 'slug', 'shop_name', 'amount', 'pk', 'images', 'price')
 
 
 class ItemDetailSerializer(serializers.ModelSerializer):

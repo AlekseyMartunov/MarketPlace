@@ -21,7 +21,7 @@ urlpatterns = [
         'put': 'update',
         'delete': 'destroy'
     })),
-    path('search-items', FilterListItems.as_view()),
+    path('search-items/<slug:category_slug>', FilterListItems.as_view()),
     path('shops/<slug:category_slug>', ShopApi.as_view()),
 
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

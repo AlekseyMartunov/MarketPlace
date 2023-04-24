@@ -57,8 +57,15 @@ class CategoriesAPI(viewsets.ModelViewSet):
 class FilterListItems(generics.ListAPIView):
     """
     Класс, для реализации фильтрации и сортировки в запросе
+
+    ожидает на вход:
+    api/v1/search-items/category_slug?query_params"
     """
-    queryset = Item.objects.all()
+
+    def get_queryset(self):
+        category = self.kwargs['category_slug']
+        return Item.objects.filter(category__slug=category)
+
     serializer_class = ItemListSerializer
     filter_backends = (filters.DjangoFilterBackend, MyOrderingFilter)
     filterset_class = ItemFilter
