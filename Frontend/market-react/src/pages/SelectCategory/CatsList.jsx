@@ -15,7 +15,7 @@ const CatsList = ({currentCat, allcats, index, navigate}) => {
             }
         }
         if (catsArr.length === 0){
-            navigate(currentCat.slug)
+            navigate(currentCat)
         } else {
             setCats(catsArr)
             setOpen(!open)

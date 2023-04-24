@@ -19,9 +19,8 @@ const SelectCategory = () => {
         setCats(response)
     }
 
-    function goToNextPage(slug) {
-        console.log(slug)
-        navigate(`/catalog/${slug}`)
+    function goToNextPage(cat) {
+        navigate(`/catalog/${cat.slug}`, {state: {cat: cat}})
     }
 
     return (
