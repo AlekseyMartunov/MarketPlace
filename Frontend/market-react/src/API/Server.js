@@ -36,4 +36,10 @@ export default class Server {
         const response = await axios.get(url)
         return response.data
     }
+
+    static async getDetailItem(slug) {
+        const url = 'http://localhost:8000/api/v1/items/' + slug
+        const response = await axios.get(url)
+        return response.data
+    }
 }

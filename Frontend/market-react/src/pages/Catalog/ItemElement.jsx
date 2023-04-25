@@ -1,17 +1,27 @@
 import React from 'react';
 import styles from './Catalog.module.css'
-import MyButton from "../../components/myButton/MyButton";
 import ImageSlider from "./ImageSlider";
 import Description from "./Description";
 import Rating from "./Rating";
+import {useNavigate} from "react-router-dom";
 
 const ItemElement = (props) => {
+    const navigate = useNavigate()
+
+    function aboutItem() {
+        console.log(props.item)
+        navigate(`/about-item/${props.item.slug}`)
+    }
     return (
         <div className={styles.Item_element}>
             <ImageSlider photos={props.item.images}/>
             <Description item={props.item}/>
             <Rating/>
-            <MyButton>Подробнее...</MyButton>
+            <div className={styles.button}
+                onClick={aboutItem}
+            >
+                Подробнее...
+            </div>
         </div>
     );
 };

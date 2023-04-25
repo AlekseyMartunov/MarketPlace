@@ -72,6 +72,24 @@
     margin: 5px;
 }
 
+.button {
+    width: 200px;
+    border-radius: 30px;
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background-color: rgba(43,43,43,0.99);
+    font-family: Arial;
+    color: white;
+    font-size: 17px;
+}
+
+.button:hover {
+    color: deepskyblue;
+}
+
+
 .Filter__contend {
     width: 290px;
     height: 570px;

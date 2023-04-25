@@ -4,8 +4,6 @@ import style from "./SelectCategory.module.css";
 const CatsList = ({currentCat, allcats, index, navigate}) => {
     const [cats, setCats] = useState([])
     const [open, setOpen] = useState(false)
-    const [nextPage, setNextPage] = useState(false)
-
 
     function getSubCats() {
         let catsArr = []

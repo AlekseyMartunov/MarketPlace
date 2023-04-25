@@ -10,7 +10,6 @@ import SelectCat from "./SelectCat";
 
 const Filter = ({getItemsByURLParams, selectedCat}) => {
     const [searchParams, setSearchParams] = useSearchParams();
-    // const [cat] = useState(state ?  (state.cat) : 1)
 
 
     function resetFilter() {
