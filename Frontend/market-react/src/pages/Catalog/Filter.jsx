@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from "./Catalog.module.css";
 import FilterByParams from "./FilterByParams";
 import {useLocation, useSearchParams} from "react-router-dom";
@@ -8,9 +8,9 @@ import SelectedCat from "./SelectedCat";
 import SelectCat from "./SelectCat";
 
 
-const Filter = ({getItemsByURLParams}) => {
+const Filter = ({getItemsByURLParams, selectedCat}) => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const { state } = useLocation();
+    // const [cat] = useState(state ?  (state.cat) : 1)
 
 
     function resetFilter() {
@@ -22,12 +22,12 @@ const Filter = ({getItemsByURLParams}) => {
         for (const entry of searchParams.entries()) {
             queryParams[entry[0]] = entry[1]
         }
-        getItemsByURLParams(state.cat.slug, queryParams)
+        getItemsByURLParams(selectedCat.slug, queryParams)
     }
 
     return (
         <div className={styles.Filter__contend}>
-            <SelectedCat/>
+            <SelectedCat cat={selectedCat}/>
             <SelectCat/>
             <FilterByParams/>
             <Ordering/>

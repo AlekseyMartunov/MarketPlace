@@ -7,7 +7,6 @@ import {useLocation, useSearchParams} from "react-router-dom";
 const SelectShop = ({currCategory}) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [shops, setShops] = useState([]);
-    const [shop, setShop] = useState("Выберите Магазин")
     const { state } = useLocation();
 
     useEffect(() => {
