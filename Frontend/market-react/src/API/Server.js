@@ -2,8 +2,8 @@ import axios from "axios";
 
 
 export default class Server {
-    static async getItems(queryParams={}) {
-        let url = 'http://localhost:8000/api/v1/search-items'
+    static async getItems(slug_cat, queryParams={}) {
+        let url = 'http://localhost:8000/api/v1/search-items/' + slug_cat
 
         if (Object.keys(queryParams).length === 0) {
             const response = await axios.get(url)

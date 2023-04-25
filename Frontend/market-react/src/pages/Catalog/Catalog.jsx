@@ -3,17 +3,13 @@ import Server from "../../API/Server";
 import ItemsList from "./ItemsList";
 import styles from "./Catalog.module.css";
 import Filter from "./Filter";
-import {useLocation} from "react-router-dom";
 
 
 const Catalog = (props) => {
     const [items, setItems] = useState([])
-    const { state } = useLocation();
-
 
     useEffect(() => {
         getItems()
-        console.log(state.cat)
     }, [])
 
     async function getItems() {
@@ -21,8 +17,8 @@ const Catalog = (props) => {
         setItems(response)
     }
 
-    async function getItemsByURLParams(queryParams) {
-        const response = await Server.getItems(queryParams)
+    async function getItemsByURLParams(slug_cat, queryParams) {
+        const response = await Server.getItems(slug_cat, queryParams)
         setItems(response)
     }
 

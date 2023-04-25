@@ -1,25 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import Server from "../../API/Server";
 import styles from "./Catalog.module.css";
-import { useSearchParams } from "react-router-dom";
+import {useLocation, useSearchParams} from "react-router-dom";
 
 
 const SelectShop = ({currCategory}) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [shops, setShops] = useState([]);
     const [shop, setShop] = useState("Выберите Магазин")
+    const { state } = useLocation();
 
     useEffect(() => {
         getShops()
     }, [])
 
     async function getShops() {
-        const response = await Server.getShops(currCategory)
+        const response = await Server.getShops(state.cat.slug)
         setShops(response)
     }
 
     function selectShop(el) {
-        console.log(el)
         updateShopParams(el.slug)
     }
 

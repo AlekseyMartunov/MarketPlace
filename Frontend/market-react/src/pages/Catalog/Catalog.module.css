@@ -74,13 +74,11 @@
 
 .Filter__contend {
     width: 290px;
-    height: 450px;
+    height: 570px;
     margin: 10px;
     border-radius: 15px;
     background: teal;
     border: 1px solid;
-
-
 }
 
 .Filter__contend:hover {
@@ -130,6 +128,7 @@
     border: 1px solid;
     font-size: 0.9em;
     background-color: forestgreen;
+    cursor: pointer;
 }
 .Filter__button_reset {
     margin: 5px;
@@ -138,6 +137,7 @@
     border: 1px solid;
     font-size: 0.9em;
     background-color: rgb(164, 20, 20);
+    cursor: pointer;
 }
 
 .Filter__button_search:hover {
@@ -209,5 +209,34 @@
     border: 1px solid;
     border-radius: 5px;
     background-color: white;
+}
+
+.Selected__cat {
+    background-color: white;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-family: Arial;
+    font-size: 1.2em;
+}
+
+.SelectCat {
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    font-family: Arial;
+    font-size: 1.2em;
+    background-color: rgb(164, 20, 20);
+    cursor: pointer;
+}
+
+.SelectCat:hover {
+    background-color: rgb(232, 26, 26);
 }
 
