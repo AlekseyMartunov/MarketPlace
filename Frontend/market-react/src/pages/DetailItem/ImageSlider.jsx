@@ -3,36 +3,34 @@ import styles from "./DetailItem.module.css"
 
 
 const ImageSlider = ({images}) => {
-    const [currentImg, setCurrentImg] = useState(0);
-    const maxlength = images.length;
+    const [selected, setSelected] = useState(0);
+    const [bigImg, setBigImg] = useState("")
 
-    function getIndex(pos) {
-        return (maxlength + pos) % maxlength
+    function updateImages(img, id){
+        setBigImg(img)
+        setSelected(id)
     }
 
     return (
-        <div className={styles.ImageSlider__container}>
-            <div className={styles.ImageSlider__images_list}>
-                <div>+</div>
-                <div>
-                    <img className={styles.ImageSlider__little_img} src={images[getIndex(1)]}/>
-                </div>
-                <div>
-                    <img className={styles.ImageSlider__little_img} src={images[getIndex(2)]}/>
-                </div>
-                <div>
-                    <img className={styles.ImageSlider__little_img} src={images[getIndex(3)]}/>
-                </div>
-                <div>
-                    <img className={styles.ImageSlider__little_img} src={getIndex(4)}/>
-                </div>
-                <div>
-                    <img className={styles.ImageSlider__little_img} src={getIndex(5)}/>
-                </div>
-                <div>-</div>
+        <div className={styles.ImageSlider_container}>
+            <div className={styles.ImageSlider_images_list}>
+                {images.map((img, id)=>
+                    <div>
+                        <img
+                            key={id}
+                            onClick={() => updateImages(img, id)}
+                            src={img}
+                            className={id === selected ? (
+                                styles.ImageSlider_little_img_selected + " " + styles.ImageSlider_little_img
+                            ): (
+                                styles.ImageSlider_little_img
+                            )}
+                        />
+                    </div>
+                )}
             </div>
-            <div className={styles.ImageSlider__main_image}>
-                <img className={styles.ImageSlider__big_img} src={images[1]}/>
+            <div className={styles.ImageSlider_main_image}>
+                <img className={styles.ImageSlider_big_img} src={bigImg ? (bigImg) : (images[0])}/>
             </div>
         </div>
     );

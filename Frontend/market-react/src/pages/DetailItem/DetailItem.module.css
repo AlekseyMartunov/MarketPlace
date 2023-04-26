@@ -10,9 +10,8 @@
 }
 
 .content {
-    height: 500px;
-    width: 600px;
-    border: 1px solid red;
+    height: 550px;
+    width: 625px;
 }
 
 .content_info {
@@ -36,28 +35,73 @@
     text-align: center;
 }
 
-.ImageSlider__container {
+.ImageSlider_container {
     display: flex;
     flex-direction: row;
 }
 
-.ImageSlider__images_list {
+.ImageSlider_images_list {
+    margin: 10px;
     width: 20%;
     height: 500px;
-    background-color: rebeccapurple;
+    overflow-y: auto;
 }
 
-.ImageSlider__main_image {
-    background-color: green;
+.ImageSlider_main_image {
     width: 80%;
 }
 
-.ImageSlider__little_img {
+.ImageSlider_little_img {
     width: 100px;
     height: 100px;
+    border: 2px solid grey;
+    border-radius: 5%;
 }
 
-.ImageSlider__big_img {
-    width: 450px;
-    height: 450px;
+.ImageSlider_little_img_selected {
+    border: 2px solid deepskyblue;
+}
+
+.ImageSlider_big_img {
+    margin-top: 20px;
+    border: 2px solid grey;
+    border-radius: 5%;
+    width: 475px;
+    height: 475px;
+}
+
+.AddInbacket_input {
+    text-align: center;
+    font-family: Arial;
+    font-size: 15px;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 20px;
+}
+
+.AddInbacket_button {
+    cursor: pointer;
+    margin: 15px;
+    font-size: 20px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.AddInbacket_send {
+    text-align: center;
+}
+
+.AddInbacket_send button{
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: white;
+    font-size: 15px;
+    font-family: Arial;
+}
+
+.AddInbacket_send button:hover {
+    background: deepskyblue;
 }

@@ -4,6 +4,8 @@ import Server from "../../API/Server";
 import styles from "./DetailItem.module.css"
 import DetailInfo from "./DetailInfo";
 import ImageSlider from "./ImageSlider";
+import Description from "./Description";
+import Reviews from "./Reviews";
 
 
 const DetailItem = () => {
@@ -18,7 +20,6 @@ const DetailItem = () => {
         const slug = location.pathname.split('/')[2]
         const response = await Server.getDetailItem(slug)
         setItem(response)
-        console.log(response)
     }
 
     return (
@@ -26,16 +27,20 @@ const DetailItem = () => {
             <h1 className={styles.header}>{item.name}</h1>
             <div className={styles.container}>
                 <div className={styles.content}>
-                    <ImageSlider images={item.images}/>
+                    {
+                        item.images ? (
+                            <ImageSlider images={item.images}/>
+                        ) : (
+                            null
+                        )
+                    }
                 </div>
                 <div className={styles.content_info}>
                     <DetailInfo item={item}/>
                 </div>
             </div>
-            <div>
-                {item.description}
-            </div>
-            <div>смотреть отзывы</div>
+            <Description item={item}/>
+            <Reviews item={item}/>
         </div>
     );
 };

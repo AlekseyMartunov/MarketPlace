@@ -1,5 +1,6 @@
 import React from 'react';
 import style from "./DetailItem.module.css"
+import AddInbacket from "./AddInbacket";
 const DetailInfo = ({item}) => {
     return (
         <div>
@@ -19,6 +20,8 @@ const DetailInfo = ({item}) => {
                 <p>ТОВАР ОПУБЛИКОВАН:</p>
                 {item.created_time}
             </div>
+            <AddInbacket item={item}/>
+
         </div>
     );
 };
