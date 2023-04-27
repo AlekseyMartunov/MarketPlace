@@ -1,13 +1,13 @@
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.urls import path
-from api.views import ItemListAPI, CategoriesAPI, FilterListItems, ShopApi
+from api.views import ItemAPI, CategoriesAPI, FilterListItems, ShopApi
 
 
 urlpatterns = [
-    path('items', ItemListAPI.as_view({
+    path('items', ItemAPI.as_view({
         'post': 'create'
     })),
-    path('items/<slug:slug>', ItemListAPI.as_view({
+    path('items/<slug:slug>', ItemAPI.as_view({
         'get': 'retrieve',
         'put': 'update',
         'delete': 'destroy'

@@ -15,10 +15,17 @@ class ItemListSerializer(serializers.ModelSerializer):
 
 
 class ItemDetailSerializer(serializers.ModelSerializer):
+    shop_name = serializers.CharField(source='shop.name')
+    shop_slug = serializers.CharField(source='shop.slug')
+    images = serializers.StringRelatedField(
+        many=True,
+        read_only=True
+    )
 
     class Meta:
         model = Item
-        fields = ('name', 'description', 'amount', 'price', 'category', 'shop', 'slug', 'created_time')
+        fields = ('name', 'description', 'amount', 'price', 'category',\
+                  'shop_name', 'shop_slug', 'slug', 'created_time', 'images')
         read_only_fields = ('slug', 'created_time')
 
 

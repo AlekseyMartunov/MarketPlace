@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'objects.apps.ObjectsConfig',
     'api.apps.ApiConfig',
+    'cache.apps.CacheConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -93,6 +94,13 @@ DATABASES = {
         'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '5432',
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
     }
 }
 

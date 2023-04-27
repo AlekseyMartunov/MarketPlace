@@ -1,6 +1,5 @@
 from rest_framework import viewsets
 from rest_framework import generics
-from rest_framework.response import Response
 from django_filters import rest_framework as filters
 
 from rest_framework.permissions import IsAdminUser, AllowAny
@@ -12,7 +11,7 @@ from api.serializers import ItemListSerializer, ItemDetailSerializer, CategoryDe
                             ShopListSerializer
 
 
-class ItemListAPI(viewsets.ModelViewSet):
+class ItemAPI(viewsets.ModelViewSet):
     """
     Класс для работы с товарами
     """
@@ -42,16 +41,6 @@ class CategoriesAPI(viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny, ]
         return [permission() for permission in permission_classes]
-
-    # def list(self, request):
-    #     queryset = Category.objects.filter(parent=None)
-    #     serializer = CategoryDetailSerializer(queryset, many=True)
-    #     return Response(serializer.data)
-    #
-    # def retrieve(self, request, slug, *args, **kwargs):
-    #     queryset = Category.objects.filter(parent__slug=slug)
-    #     serializer = CategoryDetailSerializer(queryset, many=True)
-    #     return Response(serializer.data)
 
 
 class FilterListItems(generics.ListAPIView):
@@ -85,6 +74,9 @@ class ShopApi(generics.ListAPIView):
     def get_queryset(self):
         category = self.kwargs['category_slug']
         return Shop.objects.filter(categories__slug=category)
+
+
+
 
 
 
