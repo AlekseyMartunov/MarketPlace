@@ -16,15 +16,13 @@ class CartCacheAPI(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             user = "user:" + str(request.user.pk) + ":cart"
-            data = request.data
-            cache.set(user, data)
-            return Response(data, status=201)
+            cache.set(user, request.data)
+            return Response(request.data, status=201)
         else:
             token = secrets.token_hex(16)
             user = "user:" + token + ":cart"
-            data = request.data
-            cache.set(user, data)
-            res = Response(data, status=201)
+            cache.set(user, request.data)
+            res = Response(request.data, status=201)
             res.set_cookie('cart_id', token)
             return res
 
@@ -44,15 +42,17 @@ class CartCacheAPI(generics.ListCreateAPIView):
                 cache.delete(user)
                 new_user = "user:" + str(request.user.pk) + ":cart"
                 cache.set(new_user, data)
-                res = Response(data)
+                res = Response(data, status=200)
                 res.delete_cookie('cart_id')
                 return res
-
         else:
             token = request.COOKIES.get('cart_id')
             if token is None:
                 return Response()
             user = "user:" + token + ":cart"
             data = cache.get(user)
-            return Response(data)
+            return Response(data, status=200)
+
+
+
 

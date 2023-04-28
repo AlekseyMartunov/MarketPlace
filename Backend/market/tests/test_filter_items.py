@@ -1,5 +1,3 @@
-import json
-
 import pytest
 from rest_framework.test import APIClient
 from objects.models import Category, User, Shop, Item
