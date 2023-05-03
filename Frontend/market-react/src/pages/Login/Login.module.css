@@ -1,0 +1,42 @@
+.content {
+    width: 400px;
+    height: 400px;
+    margin: auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-top: 100px;
+    background-color: teal;
+    text-align: center;
+}
+
+.text {
+    font-family: Arial;
+    font-size: 1.2em;
+    padding: 10px;
+}
+
+.button {
+    padding: 10px;
+    margin: 10px;
+    font-family: Arial;
+    font-size: 1.2em;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.button:hover {
+    background-color: deepskyblue;
+}
+
+.input_field {
+    margin: 15px;
+}
+
+.input_field input {
+    width: 250px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+}

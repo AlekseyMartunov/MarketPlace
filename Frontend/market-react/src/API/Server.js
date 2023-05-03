@@ -1,12 +1,12 @@
-import axios from "axios";
+import api from "./index";
 
 
 export default class Server {
     static async getItems(slug_cat, queryParams={}) {
-        let url = 'http://localhost:8000/api/v1/search-items/' + slug_cat
+        let url = 'search-items/' + slug_cat
 
         if (Object.keys(queryParams).length === 0) {
-            const response = await axios.get(url)
+            const response = await api.get(url)
             return response.data
         }
 
@@ -15,31 +15,31 @@ export default class Server {
             const keyValue = `${key}=${value}&`
             url += keyValue
         }
-        const response = await axios.get(url)
+        const response = await api.get(url)
         return response.data
     }
 
     static async getCats(slug="") {
         let url;
         if (slug !== "") {
-            url = 'http://localhost:8000/api/v1/categories' + '/' + slug
+            url = 'categories/' + slug
         }
         else {
-            url = 'http://localhost:8000/api/v1/categories'
+            url = 'categories'
         }
-        const response = await axios.get(url)
+        const response = await api.get(url)
         return response.data
     }
 
     static async getShops(category) {
-        let url = 'http://localhost:8000/api/v1/shops/' + category
-        const response = await axios.get(url)
+        let url = 'shops/' + category
+        const response = await api.get(url)
         return response.data
     }
 
     static async getDetailItem(slug) {
-        const url = 'http://localhost:8000/api/v1/items/' + slug
-        const response = await axios.get(url)
+        const url = 'items/' + slug
+        const response = await api.get(url)
         return response.data
     }
 }

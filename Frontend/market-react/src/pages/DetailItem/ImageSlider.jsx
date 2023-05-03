@@ -15,9 +15,8 @@ const ImageSlider = ({images}) => {
         <div className={styles.ImageSlider_container}>
             <div className={styles.ImageSlider_images_list}>
                 {images.map((img, id)=>
-                    <div>
+                    <div key={id}>
                         <img
-                            key={id}
                             onClick={() => updateImages(img, id)}
                             src={img}
                             className={id === selected ? (

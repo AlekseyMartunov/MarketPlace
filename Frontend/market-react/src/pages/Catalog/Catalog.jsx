@@ -6,7 +6,6 @@ import Filter from "./Filter";
 import {useLocation} from "react-router-dom";
 
 
-
 const Catalog = (props) => {
     const [items, setItems] = useState([])
     const location = useLocation()
