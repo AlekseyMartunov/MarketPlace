@@ -9,7 +9,6 @@ const ItemElement = (props) => {
     const navigate = useNavigate()
 
     function aboutItem() {
-        console.log(props.item)
         navigate(`/about-item/${props.item.slug}`)
     }
     return (

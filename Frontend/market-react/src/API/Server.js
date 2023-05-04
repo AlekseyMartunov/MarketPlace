@@ -46,6 +46,6 @@ export default class Server {
     static async authorization(data) {
         const url = 'token/'
         const response = await api.post(url, data)
-        return response.data
+        return response
     }
 }
