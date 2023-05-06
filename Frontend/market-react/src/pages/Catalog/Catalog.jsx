@@ -9,7 +9,9 @@ import {useLocation} from "react-router-dom";
 const Catalog = (props) => {
     const [items, setItems] = useState([])
     const location = useLocation()
+
     // не знаю почему, но это работает
+    // значение из state иногда пропадает про добавлении параметров Query Parameters к URL
     const [cat] = useState(location.state ?  (location.state.cat) : 1)
 
     useEffect(() => {

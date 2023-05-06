@@ -1,4 +1,7 @@
 import api from "./index";
+import {useNavigate} from "react-router-dom";
+import {useContext} from "react";
+import {AuthContext} from "../context";
 
 
 export default class Server {
@@ -47,5 +50,10 @@ export default class Server {
         const url = 'token/'
         const response = await api.post(url, data)
         return response
+    }
+
+    static async logout(token) {
+        const url = 'logout/'
+        return await api.post(url, token)
     }
 }

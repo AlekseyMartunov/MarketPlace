@@ -1,9 +1,16 @@
 import React from 'react';
 import styles from "./Login.module.css";
+import {useNavigate} from "react-router-dom";
 
 const Registration = () => {
+    const navigate = useNavigate()
+     function authorization() {
+        navigate("/authorization")
+     }
+
     return (
-        <div>
+        <div className={styles.content}>
+            <p className={styles.text}>Создайте аккаунт</p>
             <div className={styles.input_field}>
                 <input
                     type="text"
@@ -29,6 +36,11 @@ const Registration = () => {
                 </input>
             </div>
             <button className={styles.button}>Создать профиль</button>
+            <button
+                className={styles.button}
+                onClick={authorization}
+            >Есть аккаунт? Войдите
+            </button>
         </div>
     );
 };
