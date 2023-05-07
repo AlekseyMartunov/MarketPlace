@@ -6,12 +6,9 @@ import {AuthContext} from "../../context";
 
 const Authorization = () => {
     const navigate = useNavigate()
-    const {name, shop} = useContext(AuthContext);
+    const {isAuth, setIsAuth} = useContext(AuthContext)
 
-    const [userName, setUserName] = name;
-    const [isShopOwner, setShopOwner] = shop;
-
-    const [nameForm, setUserNameForm] = useState("")
+    const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
 
     function registration() {
@@ -23,15 +20,15 @@ const Authorization = () => {
             let userData = {}
 
             userData['password'] = password
-            userData['username'] = nameForm
-
+            userData['username'] = userName
             const response = await Server.authorization(userData)
+
             localStorage.setItem('token_refresh', response.data.refresh)
             localStorage.setItem('token_access', response.data.access)
 
             const name = parseJwt(response.data.access)['name']
-            setUserName(name)
             localStorage.setItem('userName', name)
+            setIsAuth(true)
 
             navigate(`/catalog`)
         } catch (e) {
@@ -50,10 +47,10 @@ const Authorization = () => {
             <p className={styles.text}>Авторизуйтесь</p>
             <div className={styles.input_field}>
                 <input
-                    onChange={(e) => setUserNameForm(e.target.value)}
+                    onChange={(e) => setUserName(e.target.value)}
                     type="text"
                     placeholder="Имя пользователя"
-                    value={nameForm}
+                    value={userName}
                 />
             </div>
             <div className={styles.input_field}>

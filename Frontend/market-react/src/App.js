@@ -6,31 +6,29 @@ import {AuthContext} from "./context";
 
 
 function App() {
-    const [isShopOwner, setShopOwner] = useState(true)
-    const [userName, setUserName] = useState("7585")
+    const [isAuth, setIsAuth] = useState(false)
 
     useEffect(() => {
-        checkValues()
+        checkValue()
     }, [])
 
-    function checkValues() {
-        const name = localStorage.getItem("userName")
-        if (name !== "") {
-            setUserName(name)
+    function checkValue() {
+        if (localStorage.getItem('userName') !== null) {
+            setIsAuth(true)
         }
     }
 
-  return (
-      <AuthContext.Provider value ={{
-          shop: [isShopOwner, setShopOwner],
-          name: [userName, setUserName]
+    return (
+      <AuthContext.Provider value={{
+          isAuth,
+          setIsAuth
       }}>
           <BrowserRouter>
               <Navbar/>
               <AppRouter/>
           </BrowserRouter>
       </AuthContext.Provider>
-  );
+    );
 }
 
 export default App;

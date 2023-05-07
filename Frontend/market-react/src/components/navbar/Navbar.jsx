@@ -1,36 +1,34 @@
-import React, {useContext} from 'react';
 import classes from './Navbar.module.css'
-import {Link} from "react-router-dom";
 import {AuthContext} from "../../context";
-import logout from "../../API/Logout";
+import {Link} from "react-router-dom";
+import {navBarRoutesAuthorized, navBarRoutes} from "../../router";
+import {useContext} from "react";
 
 
 const Navbar = () => {
-    const {name, shop} = useContext(AuthContext);
-    const [username, setUserName] = name;
-    const [isShopOwner, setIhopOwner] = shop;
+    const {isAuth, setIsAuth} = useContext(AuthContext)
 
     return (
         <div className={classes.navbar}>
-            <div className={classes.element}>
-                <Link className={classes.link} to={'/catalog'}>
-                    Каталог
-                </Link>
-            </div>
             {
-                username ? (
-                    <div
-                        onClick={logout}
-                    >Logout</div>
+                isAuth ? (
+                    navBarRoutesAuthorized.map((router, indx) =>
+                            <div className={classes.element} key={indx}>
+                                <Link className={classes.link} to={router.link}>
+                                    {router.name}
+                                </Link>
+                            </div>
+                        )
                 ) : (
-                    <div className={classes.element}>
-                        <Link className={classes.link} to={'/registration'}>
-                            Вход/Регистрация
-                        </Link>
-                    </div>
+                    navBarRoutes.map((router, indx) =>
+                        <div className={classes.element} key={indx}>
+                            <Link className={classes.link} to={router.link}>
+                                {router.name}
+                            </Link>
+                        </div>
+                    )
                 )
             }
-
         </div>
     );
 };
