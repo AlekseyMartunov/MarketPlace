@@ -3,6 +3,7 @@ import {AuthContext} from "../../context";
 import {Link} from "react-router-dom";
 import {navBarRoutesAuthorized, navBarRoutes} from "../../router";
 import {useContext} from "react";
+import UserName from "./UserName";
 
 
 const Navbar = () => {
@@ -29,6 +30,7 @@ const Navbar = () => {
                     )
                 )
             }
+            <UserName/>
         </div>
     );
 };
