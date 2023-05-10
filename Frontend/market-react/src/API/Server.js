@@ -1,7 +1,5 @@
 import api from "./index";
-import {useNavigate} from "react-router-dom";
-import {useContext} from "react";
-import {AuthContext} from "../context";
+
 
 
 export default class Server {
@@ -55,5 +53,17 @@ export default class Server {
     static async logout(token) {
         const url = 'logout/'
         return await api.post(url, token)
+    }
+
+    static async cartCache(data) {
+        const url = 'cart/'
+        const response = await api.post(url, data)
+        return response
+    }
+
+    static async getCartItems() {
+        const url = 'cart/'
+        const response = await api.get(url)
+        return response.data
     }
 }

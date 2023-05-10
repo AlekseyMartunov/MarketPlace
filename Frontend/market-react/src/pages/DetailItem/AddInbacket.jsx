@@ -1,8 +1,33 @@
 import React, {useState} from 'react';
 import style from "./DetailItem.module.css"
+import Server from "../../API/Server";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const AddInbacket = ({item}) => {
     const [amount, setAmount] = useState(1);
+    const notify = () => toast.success('Товар в корзине', {
+        position: "top-center",
+        autoClose: 500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    async function AddInBasket() {
+        const response = await Server.cartCache({'slug':item.slug,
+            'amount': amount})
+        if (response.statusText === "Created") {
+            notify()
+        }
+        console.log(response)
+        console.log("123")
+    }
 
     function increase() {
         if (item.amount > amount){
@@ -44,9 +69,21 @@ const AddInbacket = ({item}) => {
                 <p>CТОИМОСТЬ: {item.price * amount}</p>
             </div>
             <div className={style.AddInbacket_send}>
-                <button>
+                <button onClick={AddInBasket}>
                     Добавить в корзину
                 </button>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={500}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
             </div>
         </div>
     );

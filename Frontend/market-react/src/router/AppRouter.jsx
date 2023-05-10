@@ -1,32 +1,21 @@
 import React, {useContext} from 'react';
-import {Route, Routes} from "react-router-dom";
-import {routes, routesAuthorized} from "./index";
 import {AuthContext} from "../context";
+import AuthorizedRouters from "./AuthorizedRouters"
+import NoAuthorizedRouters from "./NoAuthorizedRouters"
 
 
 const AppRouter = () => {
     const {isAuth, setIsAuth} = useContext(AuthContext)
 
     return (
-        <Routes>
-            {
-                isAuth ? (
-                    routesAuthorized.map((route, indx) =>
-                        <Route
-                            key={indx}
-                            path={route.link}
-                            element={route.component}
-                        />)
-                ) : (
-                    routes.map((route, indx) =>
-                    <Route
-                        key={indx}
-                        path={route.link}
-                        element={route.component}
-                    />)
-                )
-            }
-        </Routes>
+        <div>{
+            isAuth ? (
+                <AuthorizedRouters/>
+            ) : (
+                <NoAuthorizedRouters/>
+            )
+        }
+        </div>
     );
 };
 
