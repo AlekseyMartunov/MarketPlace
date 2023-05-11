@@ -64,11 +64,11 @@ class CartCacheAPI(generics.ListCreateAPIView):
             data = cache.get(key)
 
             if type(data) == list:
-                value = [value, *data]
+                data.append(value)
             else:
-                value = [value, data]
+                data = [data, value]
 
-            cache.set(key, value)
+            cache.set(key, data)
         else:
             cache.set(key, value)
         return cache.get(key)

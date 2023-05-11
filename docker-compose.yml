@@ -12,6 +12,12 @@ services:
             - postgres_db:/var/lib/postgresql/data
         container_name: postgres_db_marketplace
 
+    cache:
+        image: redis
+        ports:
+            - '6379:6379'
+        container_name: redis_cache_marketplace
+
 volumes:
   postgres_db:
       name: postgres_db_marketplace

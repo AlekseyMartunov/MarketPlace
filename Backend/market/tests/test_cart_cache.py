@@ -8,7 +8,7 @@ from django.core.cache import cache
 
 @pytest.fixture
 def set_up():
-    url = "http://127.0.0.1:8000/api/v1/cart"
+    url = "http://localhost:8000/api/v1/cart/"
     user_1 = User.objects.create_user(
         username="Dima",
         password="h743kJdLLd3hs&9k6dkG",
@@ -110,9 +110,6 @@ def test_set_and_get_no_authenticated(set_up):
 
     response = client_no_authenticated.get(url)
 
-    card_id = response.client.cookies['cart_id'].value
-    key = f'user:{card_id}:cart'
-
     assert response.status_code == 200
     assert response.data == data
     assert cache.get(key) == data
@@ -153,6 +150,58 @@ def test_registration_after_creating_cart(set_up):
     assert cache.get('user:1:cart') == data
 
     cache.clear()
+
+
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_three_item_and_registration(set_up):
+    client_authenticated, client_no_authenticated, url, user_1 = set_up
+
+    item_1 = {
+        "data": 123,
+        "some_field": "some_string"
+    }
+
+    item_2 = {
+        "data": 456,
+        "some_field": "some_new_string_string"
+    }
+
+    item_3 = {
+        "text": 789,
+        "another_text": 100
+    }
+
+    client_no_authenticated.post(url, item_1)
+    client_no_authenticated.post(url, item_2)
+    client_no_authenticated.post(url, item_3)
+
+    response = client_no_authenticated.get(url)
+
+    assert response.status_code == 200
+    assert response.data == [item_1, item_2, item_3]
+
+    card_id = response.client.cookies['cart_id'].value
+
+    assert card_id is not None
+
+    client_authenticated.cookies = SimpleCookie({'cart_id': card_id})
+
+    response = client_authenticated.get(url)
+
+    assert response.status_code == 200
+    assert response.data == [item_1, item_2, item_3]
+
+    cache.clear()
+
+
+
+
+
+
+
+
+
+
 
 
 
