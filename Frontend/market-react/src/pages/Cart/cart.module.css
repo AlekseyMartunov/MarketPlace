@@ -1,0 +1,39 @@
+.cart_element{
+    width: 100%;
+    display: table;
+    margin-top: 10px;
+    font-size: 20px;
+    background-color: grey;
+}
+.text {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.img {
+    width: 75px;
+    height: 75px;
+    border-radius: 10px;
+}
+
+.button {
+    font-size: 15px;
+    background-color: rgba(194, 0, 0, 0.85);
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 3px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.button:hover {
+    background-color: #ff0000;
+}
+
+.button_amount{
+    padding: 5px;
+    margin: 3px;
+    font-size: 15px;
+}

@@ -64,6 +64,6 @@ export default class Server {
     static async getCartItems() {
         const url = 'cart/'
         const response = await api.get(url)
-        return response.data
+        return response
     }
 }

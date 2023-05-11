@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import Server from "../../API/Server";
-import ItemElement from "../Catalog/ItemElement";
+import CartElement from "./CartElement";
+
 
 const Cart = () => {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState([])
 
     useEffect(() => {
         getCartItems()
@@ -11,17 +12,28 @@ const Cart = () => {
 
     async function getCartItems() {
         const response = await Server.getCartItems()
-        // setItems(response)
-        console.log(response)
+        setItems(response.data)
+        console.log(response.data)
     }
 
+    function deleteItem(indx) {
+        let copy = [...items]
+        copy.splice(indx, 1)
+        setItems(copy)
+    }
 
     return (
         <div>
             {
-                items.map((item) =>
-                    <div>11</div>
-            )}
+                items.map((item, index) =>
+                    <CartElement
+                        item={item}
+                        index={index}
+                        key={index}
+                        deleteItem={deleteItem}
+                    />
+                )
+            }
         </div>
     );
 };

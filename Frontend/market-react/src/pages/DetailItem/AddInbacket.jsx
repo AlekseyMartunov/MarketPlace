@@ -20,13 +20,18 @@ const AddInbacket = ({item}) => {
     });
 
     async function AddInBasket() {
-        const response = await Server.cartCache({'slug':item.slug,
-            'amount': amount})
+        const response = await Server.cartCache(
+            {
+                'name': item.name,
+                'amount': amount,
+                'price': item.price,
+                'slug':item.slug,
+                'img': item.images[0]
+            }
+        )
         if (response.statusText === "Created") {
             notify()
         }
-        console.log(response)
-        console.log("123")
     }
 
     function increase() {
