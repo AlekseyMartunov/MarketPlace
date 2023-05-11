@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Server from "../../API/Server";
 import CartElement from "./CartElement";
+import styles from "./cart.module.css"
 
 
 const Cart = () => {
@@ -12,28 +13,32 @@ const Cart = () => {
 
     async function getCartItems() {
         const response = await Server.getCartItems()
-        setItems(response.data)
-        console.log(response.data)
+        setItems(response)
     }
 
-    function deleteItem(indx) {
+    async function updateItemsList(indx) {
         let copy = [...items]
         copy.splice(indx, 1)
-        setItems(copy)
+        const response = await Server.updateCache(copy)
+        setItems(response)
     }
 
     return (
         <div>
-            {
-                items.map((item, index) =>
-                    <CartElement
-                        item={item}
-                        index={index}
-                        key={index}
-                        deleteItem={deleteItem}
-                    />
-                )
-            }
+            <div>
+                {
+                    items.map((item, index) =>
+                        <CartElement
+                            item={item}
+                            index={index}
+                            key={index}
+                            deleteItem={updateItemsList}
+                        />
+                    )
+                }
+            </div>
+            <button className={styles.button_order}>Очистить корзину</button>
+            <button className={styles.button_order}>Сделать заказ</button>
         </div>
     );
 };

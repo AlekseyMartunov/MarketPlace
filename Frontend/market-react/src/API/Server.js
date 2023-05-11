@@ -64,6 +64,12 @@ export default class Server {
     static async getCartItems() {
         const url = 'cart/'
         const response = await api.get(url)
-        return response
+        return response.data
+    }
+
+    static async updateCache(data){
+        const url = 'cart/'
+        const response = await api.put(url, data)
+        return response.data
     }
 }
