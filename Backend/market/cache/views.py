@@ -4,7 +4,9 @@ from django.core.cache import cache
 import secrets
 
 
-class CartCacheAPI(generics.ListCreateAPIView):
+class CartCacheAPI(generics.ListCreateAPIView,
+                   generics.DestroyAPIView,
+                   generics.UpdateAPIView):
     """
     Класс для кеширования корзины пользователей. Если пользователь уже
     авторизован, то в базе ключ будет создаваться на основе id пользователя в базе.
@@ -22,9 +24,23 @@ class CartCacheAPI(generics.ListCreateAPIView):
         data = self.set_value(key, request.data)
         return self.get_response(data, 201)
 
+    def put(self, request, *args, **kwargs):
+        key = self.get_user_key()
+        cache.set(key, request.data)
+        data = cache.get(key)
+        return self.get_response(data, 200)
+
+    def delete(self, request, *args, **kwargs):
+        key = self.get_user_key()
+        data = cache.get(key)
+        cache.delete(key)
+        return self.get_response(data, 200)
+
     def get(self, request, *args, **kwargs):
         key = self.get_user_key()
         data = cache.get(key)
+        if type(data) != list:
+            data = [data,]
         return self.get_response(data, 200)
 
     def get_user_key(self):
