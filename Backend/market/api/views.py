@@ -46,7 +46,6 @@ class CategoriesAPI(viewsets.ModelViewSet):
 class FilterListItems(generics.ListAPIView):
     """
     Класс, для реализации фильтрации и сортировки в запросе
-
     ожидает на вход:
     api/v1/search-items/category_slug?query_params"
     """

@@ -13,45 +13,85 @@ class CartCacheAPI(generics.ListCreateAPIView):
     и только потом зарегистрировался, то в кеше мы меняем ключ на новый и удаляем COOKIES.
     Дальнейшая работа с кешем будет вестись по ключу, сделанному на основе индекса бд.
     """
+    CLEAR_COOKIES = False
+    SEND_COOKIES = False
+    TOKEN = ""
+
     def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            user = "user:" + str(request.user.pk) + ":cart"
-            cache.set(user, request.data)
-            return Response(request.data, status=201)
-        else:
-            token = secrets.token_hex(16)
-            user = "user:" + token + ":cart"
-            cache.set(user, request.data)
-            res = Response(request.data, status=201)
-            res.set_cookie('cart_id', token)
-            return res
+        key = self.get_user_key()
+        data = self.set_value(key, request.data)
+        return self.get_response(data, 201)
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            token = request.COOKIES.get('cart_id')
-            if token is None:
-                user = "user:" + str(request.user.pk) + ":cart"
-                data = cache.get(user)
-                return Response(data)
+        key = self.get_user_key()
+        data = cache.get(key)
+        return self.get_response(data, 200)
+
+    def get_user_key(self):
+        cookies_key = self.request.COOKIES.get('cart_id')
+        if self.request.user.is_authenticated:
+            if cookies_key:
+                self.CLEAR_COOKIES = True
+                return self.update_user_key(cookies_key)
             else:
-                # Если пользователь авторизован и у него есть токен корзины,
-                # то в кеше мы меняем ему ключ, основанный на токене, на ключ который
-                # основан на его pk.
-                user = "user:" + token + ":cart"
-                data = cache.get(user)
-                cache.delete(user)
-                new_user = "user:" + str(request.user.pk) + ":cart"
-                cache.set(new_user, data)
-                res = Response(data, status=200)
-                res.delete_cookie('cart_id')
-                return res
+                return "user:" + str(self.request.user.pk) + ":cart"
         else:
-            token = request.COOKIES.get('cart_id')
-            if token is None:
-                return Response()
-            user = "user:" + token + ":cart"
-            data = cache.get(user)
-            return Response(data, status=200)
+            if cookies_key:
+                return "user:" + cookies_key + ":cart"
+            else:
+                token = secrets.token_hex(16)
+                self.SEND_COOKIES = True
+                self.TOKEN = token
+                return "user:" + token + ":cart"
+
+    def update_user_key(self, old_key):
+        """
+        Данный метод вызывается для создания нового ключа в кеше, который основан на user_pk.
+        Когда пользователь был не авторизован мы использовали специальный токен и хранили его в
+        COOKIES. Еcли пользователь авторизовался, то его данные не пропадают. Мы меняем ему ключ
+        в кеше и удаляем куки ключ который использовали раньше.
+        """
+        new_key = "user:" + str(self.request.user.pk) + ":cart"
+        old_key = "user:" + old_key + ":cart"
+
+        data = cache.get(old_key)
+        cache.delete(old_key)
+        cache.set(new_key, data)
+        return new_key
+
+    def set_value(self, key, value):
+        if cache.has_key(key):
+            data = cache.get(key)
+
+            if type(data) == list:
+                value = [value, *data]
+            else:
+                value = [value, data]
+
+            cache.set(key, value)
+        else:
+            cache.set(key, value)
+        return cache.get(key)
+
+    def get_response(self, data, status):
+        res = Response(data, status=status)
+        if self.SEND_COOKIES:
+            res.set_cookie('cart_id', self.TOKEN)
+            self.SEND_COOKIES = False
+
+        if self.CLEAR_COOKIES:
+            res.delete_cookie('cart_id')
+            self.CLEAR_COOKIES = False
+        return res
+
+
+
+
+
+
+
+
+
 
 
 
