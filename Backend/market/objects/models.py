@@ -88,6 +88,26 @@ class Shop(models.Model):
         return self.name
 
 
+class RatingReviewsBookmark(models.Model):
+    """Класс для хранения информации о рейтинге, отзывах и закладках"""
+    RARING_CHOICES = (
+        (1, "1"),
+        (2, "2"),
+        (3, "3"),
+        (4, "4"),
+        (4, "5"),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='RatingReviewsBookmark')
+    review = models.TextField(blank=True, null=True)
+    rating = models.PositiveSmallIntegerField(choices=RARING_CHOICES, blank=True, null=True)
+    in_bookmark = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Отзывы рейтинг и закладки"
+        verbose_name_plural = "Отзывы рейтинг и закладки"
+
 
 
 

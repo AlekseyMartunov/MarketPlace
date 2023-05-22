@@ -16,4 +16,22 @@ api.interceptors.request.use((config) => {
     return config
 })
 
+api.interceptors.response.use((config) => {
+    return config
+}, async (error) => {
+    const originalRequest = error.config;
+     if (error.response.status === 403) {
+         try {
+             const token_refresh = localStorage.getItem("token_refresh")
+             const response = await axios.post(BASE_URL + 'token/refresh/',
+                 {'refresh': token_refresh})
+             localStorage.setItem('token_access', response.data['access'])
+             return  api.request(originalRequest)
+         } catch (e) {
+             console.log("Не авторизован")
+         }
+
+     }
+})
+
 export default api

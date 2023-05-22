@@ -68,11 +68,11 @@ def test_set_no_authenticated(set_up):
 def test_set_and_get_authenticated(set_up):
     client_authenticated, client_no_authenticated, url, user_1 = set_up
 
-    data = {
+    data = [{
         "some_name": "some_test",
         "some_age": 29,
         "x": 'red'
-    }
+    },]
 
     response = client_authenticated.post(url, data)
 
@@ -93,11 +93,11 @@ def test_set_and_get_authenticated(set_up):
 def test_set_and_get_no_authenticated(set_up):
     client_authenticated, client_no_authenticated, url, user_1 = set_up
 
-    data = {
+    data = [{
         "some_name": "some_test",
         "some_age": 29,
         "new": True,
-    }
+    },]
 
     response = client_no_authenticated.post(url, data)
 
@@ -121,10 +121,10 @@ def test_set_and_get_no_authenticated(set_up):
 def test_registration_after_creating_cart(set_up):
     client_authenticated, client_no_authenticated, url, user_1 = set_up
 
-    data = {
+    data = [{
         "some_name": "some_test",
         "some_age": 259
-    }
+    },]
 
     response = client_no_authenticated.post(url, data)
 
@@ -190,6 +190,64 @@ def test_three_item_and_registration(set_up):
 
     assert response.status_code == 200
     assert response.data == [item_1, item_2, item_3]
+
+    cache.clear()
+
+
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_delete_authenticated(set_up):
+    client_authenticated, client_no_authenticated, url, user_1 = set_up
+
+    item_1 = {
+        "data": 123,
+        "some_field": "some_string"
+    }
+    client_authenticated.post(url, item_1)
+    client_authenticated.delete(url)
+
+    response = client_authenticated.get(url)
+    assert response.data == []
+
+    cache.clear()
+
+
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_delete_no_authenticated(set_up):
+    client_authenticated, client_no_authenticated, url, user_1 = set_up
+
+    item_1 = {
+        "data": 123,
+        "some_field": "some_string"
+    }
+    client_no_authenticated.post(url, item_1)
+    client_no_authenticated.delete(url)
+
+    response = client_no_authenticated.get(url)
+    assert response.data == []
+
+    cache.clear()
+
+
+@pytest.mark.django_db(transaction=True, reset_sequences=True)
+def test_update_authenticated(set_up):
+    client_authenticated, client_no_authenticated, url, user_1 = set_up
+
+    item_1 = {
+        "data": 123,
+        "some_field": "some_string"
+    }
+
+    item_2 = {
+        "data": 456,
+        "some_field": "some_new_string",
+        "has_color": True
+    }
+
+    client_authenticated.post(url, item_1)
+    client_authenticated.put(url, item_2)
+
+    response = client_authenticated.get(url)
+    assert response.data == [item_2]
 
     cache.clear()
 

@@ -4,44 +4,10 @@ from django.core.cache import cache
 import secrets
 
 
-class CartCacheAPI(generics.ListCreateAPIView,
-                   generics.DestroyAPIView,
-                   generics.UpdateAPIView):
-    """
-    Класс для кеширования корзины пользователей. Если пользователь уже
-    авторизован, то в базе ключ будет создаваться на основе id пользователя в базе.
-    Если пользователь не авторизован, мы создаем временный токен и храним его в COOKIES.
-    На основании временного токена создается ключ для кеша. Если пользователь собрал корзину
-    и только потом зарегистрировался, то в кеше мы меняем ключ на новый и удаляем COOKIES.
-    Дальнейшая работа с кешем будет вестись по ключу, сделанному на основе индекса бд.
-    """
+class CacheService:
     CLEAR_COOKIES = False
     SEND_COOKIES = False
     TOKEN = ""
-
-    def post(self, request, *args, **kwargs):
-        key = self.get_user_key()
-        data = self.set_value(key, request.data)
-        return self.get_response(data, 201)
-
-    def put(self, request, *args, **kwargs):
-        key = self.get_user_key()
-        cache.set(key, request.data)
-        data = cache.get(key)
-        return self.get_response(data, 200)
-
-    def delete(self, request, *args, **kwargs):
-        key = self.get_user_key()
-        data = cache.get(key)
-        cache.delete(key)
-        return self.get_response(data, 200)
-
-    def get(self, request, *args, **kwargs):
-        key = self.get_user_key()
-        data = cache.get(key)
-        if type(data) != list:
-            data = [data,]
-        return self.get_response(data, 200)
 
     def get_user_key(self):
         cookies_key = self.request.COOKIES.get('cart_id')
@@ -99,6 +65,52 @@ class CartCacheAPI(generics.ListCreateAPIView,
             res.delete_cookie('cart_id')
             self.CLEAR_COOKIES = False
         return res
+
+    def get_chache_data(self, key):
+        data = cache.get(key)
+        if data is None:
+            data = []
+        return data
+
+
+class CartCacheAPI(CacheService,
+                   generics.ListCreateAPIView,
+                   generics.DestroyAPIView,
+                   generics.UpdateAPIView,):
+
+    def post(self, request, *args, **kwargs):
+        key = self.get_user_key()
+        data = self.set_value(key, request.data)
+        return self.get_response(data, 201)
+
+    def put(self, request, *args, **kwargs):
+        key = self.get_user_key()
+        cache.set(key, request.data)
+        data = self.get_chache_data(key)
+        return self.get_response(data, 200)
+
+    def delete(self, request, *args, **kwargs):
+        key = self.get_user_key()
+        data = cache.get(key)
+        cache.delete(key)
+        return self.get_response(data, 200)
+
+    def get(self, request, *args, **kwargs):
+        key = self.get_user_key()
+        data = self.get_chache_data(key)
+        if type(data) != list:
+            data = [data,]
+        return self.get_response(data, 200)
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from objects.models import Item, Photos, Category, Shop
+from objects.models import Item, Photos, Category, Shop, RatingReviewsBookmark
 
 
 class AdminPhotos(admin.StackedInline):
@@ -29,5 +29,10 @@ class AdminCategory(admin.ModelAdmin):
 class AdminShop(admin.ModelAdmin):
     list_display = ('name', 'owner')
     prepopulated_fields = {'slug': ('name', 'owner')}
+
+
+@admin.register(RatingReviewsBookmark)
+class AdminRatingReviewsBookmark(admin.ModelAdmin):
+    list_display = ('user', 'item', 'review', 'rating', 'in_bookmark')
 
 

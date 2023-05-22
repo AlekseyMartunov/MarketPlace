@@ -13,7 +13,11 @@ const Cart = () => {
 
     async function getCartItems() {
         const response = await Server.getCartItems()
-        setItems(response)
+        console.log(response)
+        if (response.length != 0) {
+            setItems(response)
+
+        }
     }
 
     async function updateItemsList(indx) {

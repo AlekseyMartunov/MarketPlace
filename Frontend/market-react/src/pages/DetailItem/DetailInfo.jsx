@@ -1,6 +1,7 @@
 import React from 'react';
 import style from "./DetailItem.module.css"
 import AddInbacket from "./AddInbacket";
+
 const DetailInfo = ({item}) => {
     return (
         <div>
@@ -14,7 +15,7 @@ const DetailInfo = ({item}) => {
                 <p>МАГАЗИН:</p> {item.shop_name}
             </div>
             <div className={style.info_conteiner}>
-                rating
+                РЕЙТИНГ: {item.rating}
             </div>
             <div className={style.info_conteiner}>
                 <p>ТОВАР ОПУБЛИКОВАН:</p>

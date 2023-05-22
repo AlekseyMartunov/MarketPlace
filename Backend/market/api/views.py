@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import generics
 from django_filters import rest_framework as filters
+from django.db.models import Avg
 
 from rest_framework.permissions import IsAdminUser, AllowAny
 from api.permissions import ShopOwner
@@ -18,6 +19,10 @@ class ItemAPI(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     lookup_field = 'slug'
     serializer_class = ItemDetailSerializer
+
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        return Item.objects.filter(slug=slug).annotate(rating=Avg("RatingReviewsBookmark__rating"))
 
     def get_permissions(self):
         if self.action in ('destroy', 'update', 'create'):
@@ -52,7 +57,7 @@ class FilterListItems(generics.ListAPIView):
 
     def get_queryset(self):
         category = self.kwargs['category_slug']
-        return Item.objects.filter(category__slug=category)
+        return Item.objects.filter(category__slug=category).annotate(rating=Avg("RatingReviewsBookmark__rating"))
 
     serializer_class = ItemListSerializer
     filter_backends = (filters.DjangoFilterBackend, MyOrderingFilter)

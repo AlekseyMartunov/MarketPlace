@@ -16,6 +16,10 @@ const Description = ({item}) => {
                 <div className={styles.Description__element}>Цена:</div>
                 <div className={styles.Description__element}>{item.price}</div>
             </div>
+            <div className={styles.Description__content}>
+                <div className={styles.Description__element}>Рейтинг:</div>
+                <div className={styles.Description__element}>{item.rating}</div>
+            </div>
         </div>
     );
 };

@@ -103,7 +103,8 @@ def test_filter_category(set_up):
             "shop_name": "cars_shop",
             "pk": 1,
             "images": [],
-            "price": "100000.00"
+            "price": "100000.00",
+            "rating": None
         },
         {
             "name": "lancer",
@@ -112,7 +113,8 @@ def test_filter_category(set_up):
             "shop_name": "cars_shop_2",
             "pk": 2,
             "images": [],
-            "price": "300000.00"
+            "price": "300000.00",
+            "rating": None
         },
     ]
 
@@ -136,7 +138,8 @@ def test_filter_shop(set_up):
             "shop_name": "cars_shop_2",
             "pk": 2,
             "images": [],
-            "price": "300000.00"
+            "price": "300000.00",
+            "rating": None
         },
     ]
 
@@ -160,7 +163,8 @@ def test_filter_shop_and_max_price(set_up):
             "shop_name": "cars_shop",
             "pk": 1,
             "images": [],
-            "price": "100000.00"
+            "price": "100000.00",
+            "rating": None
         },
     ]
 
@@ -198,7 +202,8 @@ def test_filter_order(set_up):
             "shop_name": "food_shop",
             "pk": 4,
             "images": [],
-            "price": "100.00"
+            "price": "100.00",
+            "rating": None
         },
         {
             "name": "milk",
@@ -207,7 +212,8 @@ def test_filter_order(set_up):
             "shop_name": "food_shop",
             "pk": 5,
             "images": [],
-            "price": "150.00"
+            "price": "150.00",
+            "rating": None
         },
         {
             "name": "fish",
@@ -216,7 +222,8 @@ def test_filter_order(set_up):
             "shop_name": "food_shop",
             "pk": 3,
             "images": [],
-            "price": "800.00"
+            "price": "800.00",
+            "rating": None
         },
     ]
 
