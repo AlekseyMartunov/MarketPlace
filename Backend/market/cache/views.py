@@ -1,76 +1,12 @@
-from rest_framework.response import Response
 from rest_framework import generics
-from django.core.cache import cache
-import secrets
+from django.db import transaction
+from django.db.models import F
+from rest_framework.response import Response
+from datetime import datetime
 
 
-class CacheService:
-    CLEAR_COOKIES = False
-    SEND_COOKIES = False
-    TOKEN = ""
-
-    def get_user_key(self):
-        cookies_key = self.request.COOKIES.get('cart_id')
-        if self.request.user.is_authenticated:
-            if cookies_key:
-                self.CLEAR_COOKIES = True
-                return self.update_user_key(cookies_key)
-            else:
-                return "user:" + str(self.request.user.pk) + ":cart"
-        else:
-            if cookies_key:
-                return "user:" + cookies_key + ":cart"
-            else:
-                token = secrets.token_hex(16)
-                self.SEND_COOKIES = True
-                self.TOKEN = token
-                return "user:" + token + ":cart"
-
-    def update_user_key(self, old_key):
-        """
-        Данный метод вызывается для создания нового ключа в кеше, который основан на user_pk.
-        Когда пользователь был не авторизован мы использовали специальный токен и хранили его в
-        COOKIES. Еcли пользователь авторизовался, то его данные не пропадают. Мы меняем ему ключ
-        в кеше и удаляем куки ключ который использовали раньше.
-        """
-        new_key = "user:" + str(self.request.user.pk) + ":cart"
-        old_key = "user:" + old_key + ":cart"
-
-        data = cache.get(old_key)
-        cache.delete(old_key)
-        cache.set(new_key, data)
-        return new_key
-
-    def set_value(self, key, value):
-        if cache.has_key(key):
-            data = cache.get(key)
-
-            if type(data) == list:
-                data.append(value)
-            else:
-                data = [data, value]
-
-            cache.set(key, data)
-        else:
-            cache.set(key, value)
-        return cache.get(key)
-
-    def get_response(self, data, status):
-        res = Response(data, status=status)
-        if self.SEND_COOKIES:
-            res.set_cookie('cart_id', self.TOKEN)
-            self.SEND_COOKIES = False
-
-        if self.CLEAR_COOKIES:
-            res.delete_cookie('cart_id')
-            self.CLEAR_COOKIES = False
-        return res
-
-    def get_chache_data(self, key):
-        data = cache.get(key)
-        if data is None:
-            data = []
-        return data
+from objects.models import OrderItem, Order, Item
+from cache.service import CacheService
 
 
 class CartCacheAPI(CacheService,
@@ -80,19 +16,19 @@ class CartCacheAPI(CacheService,
 
     def post(self, request, *args, **kwargs):
         key = self.get_user_key()
-        data = self.set_value(key, request.data)
+        data = self.set_value_into_array(key, request.data)
         return self.get_response(data, 201)
 
     def put(self, request, *args, **kwargs):
         key = self.get_user_key()
-        cache.set(key, request.data)
+        self.update_value(key, request.data)
         data = self.get_chache_data(key)
         return self.get_response(data, 200)
 
     def delete(self, request, *args, **kwargs):
         key = self.get_user_key()
-        data = cache.get(key)
-        cache.delete(key)
+        data = self.get_chache_data(key)
+        self.remove_key(key)
         return self.get_response(data, 200)
 
     def get(self, request, *args, **kwargs):
@@ -101,6 +37,40 @@ class CartCacheAPI(CacheService,
         if type(data) != list:
             data = [data,]
         return self.get_response(data, 200)
+
+
+class CreateOrderAPI(CacheService, generics.CreateAPIView):
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        if user is None:
+            return Response("You must be authenticated", status=403)
+        key = self.get_user_key()
+        items = self.get_chache_data(key)
+
+        with transaction.atomic():
+            total_price = 0
+            new_order = Order.objects.create(
+                user=request.user,
+                price=total_price,
+                status="Created",
+            )
+            for item in items:
+                item_db = Item.objects.get(slug=item["slug"])
+                item_db.amount = F("amount") - item["amount"]
+
+                OrderItem.objects.create(
+                    order=new_order,
+                    item=item_db,
+                    price=item["price"],
+                    amount=item["amount"]
+                )
+        return Response("123", status=201)
+
+
+
+
+
+
 
 
 

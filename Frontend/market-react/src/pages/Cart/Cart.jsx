@@ -13,11 +13,14 @@ const Cart = () => {
 
     async function getCartItems() {
         const response = await Server.getCartItems()
-        console.log(response)
         if (response.length != 0) {
             setItems(response)
-
         }
+    }
+
+    async function removeItemList() {
+        setItems([])
+        const response = await Server.deleteCAche()
     }
 
     async function updateItemsList(indx) {
@@ -25,6 +28,11 @@ const Cart = () => {
         copy.splice(indx, 1)
         const response = await Server.updateCache(copy)
         setItems(response)
+    }
+
+    async function createOrder() {
+        const response = await Server.createOrder()
+        console.log(response)
     }
 
     return (
@@ -41,8 +49,18 @@ const Cart = () => {
                     )
                 }
             </div>
-            <button className={styles.button_order}>Очистить корзину</button>
-            <button className={styles.button_order}>Сделать заказ</button>
+            <button
+                className={styles.button_order}
+                onClick={removeItemList}
+            >
+                Очистить корзину
+            </button>
+            <button
+                className={styles.button_order}
+                onClick={createOrder}
+            >
+                Сделать заказ
+            </button>
         </div>
     );
 };

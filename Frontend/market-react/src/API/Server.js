@@ -55,7 +55,7 @@ export default class Server {
         return await api.post(url, token)
     }
 
-    static async cartCache(data) {
+    static async cartCacheCreate(data) {
         const url = 'cart/'
         const response = await api.post(url, data)
         return response
@@ -72,4 +72,18 @@ export default class Server {
         const response = await api.put(url, data)
         return response.data
     }
+
+    static async deleteCAche(){
+        const url = 'cart/'
+        const response = await api.delete(url)
+        return response
+    }
+
+    static async createOrder(data){
+        const url = 'create-order/'
+        const response = await api.post(url)
+        return response
+    }
+
+
 }

@@ -20,12 +20,11 @@ const AddInbacket = ({item}) => {
     });
 
     async function AddInBasket() {
-        const response = await Server.cartCache(
+        const response = await Server.cartCacheCreate(
             {
-                'name': item.name,
                 'amount': amount,
-                'price': item.price,
                 'slug':item.slug,
+                'price': item.price,
                 'img': item.images[0]
             }
         )

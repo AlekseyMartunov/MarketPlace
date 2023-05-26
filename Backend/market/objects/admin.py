@@ -1,5 +1,6 @@
 from django.contrib import admin
-from objects.models import Item, Photos, Category, Shop, RatingReviewsBookmark
+from objects.models import Item, Photos, Category, Shop,\
+    RatingReviewsBookmark, OrderItem, Order
 
 
 class AdminPhotos(admin.StackedInline):
@@ -34,5 +35,15 @@ class AdminShop(admin.ModelAdmin):
 @admin.register(RatingReviewsBookmark)
 class AdminRatingReviewsBookmark(admin.ModelAdmin):
     list_display = ('user', 'item', 'review', 'rating', 'in_bookmark')
+
+
+@admin.register(OrderItem)
+class AdminOrderItem(admin.ModelAdmin):
+    list_display = ('pk', 'item', 'order', 'price', 'amount')
+
+
+@admin.register(Order)
+class AdminOrderItem(admin.ModelAdmin):
+    list_display = ('pk', 'user', 'data', 'price', 'status')
 
 
