@@ -2,7 +2,6 @@ from rest_framework import generics
 from django.db import transaction
 from django.db.models import F
 from rest_framework.response import Response
-from datetime import datetime
 
 
 from objects.models import OrderItem, Order, Item
@@ -21,6 +20,7 @@ class CartCacheAPI(CacheService,
 
     def put(self, request, *args, **kwargs):
         key = self.get_user_key()
+        print(request.data)
         self.update_value(key, request.data)
         data = self.get_chache_data(key)
         return self.get_response(data, 200)
@@ -49,11 +49,13 @@ class CreateOrderAPI(CacheService, generics.CreateAPIView):
 
         with transaction.atomic():
             total_price = 0
+            print(items)
             new_order = Order.objects.create(
                 user=request.user,
                 price=total_price,
                 status="Created",
             )
+
             for item in items:
                 item_db = Item.objects.get(slug=item["slug"])
                 item_db.amount = F("amount") - item["amount"]
@@ -64,7 +66,8 @@ class CreateOrderAPI(CacheService, generics.CreateAPIView):
                     price=item["price"],
                     amount=item["amount"]
                 )
-        return Response("123", status=201)
+
+        return Response({"Order_Number": new_order.pk}, status=201)
 
 
 

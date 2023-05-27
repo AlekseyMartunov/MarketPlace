@@ -30,6 +30,13 @@ const Cart = () => {
         setItems(response)
     }
 
+    async function updateAmountItems(indx, amount) {
+        let copy = [...items]
+        copy[indx].amount = amount
+        setItems(copy)
+        console.log(items)
+    }
+
     async function createOrder() {
         const response = await Server.createOrder()
         console.log(response)
@@ -45,6 +52,7 @@ const Cart = () => {
                             index={index}
                             key={index}
                             deleteItem={updateItemsList}
+                            updateAmount={updateAmountItems}
                         />
                     )
                 }

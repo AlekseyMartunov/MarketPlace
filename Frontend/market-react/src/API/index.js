@@ -20,7 +20,7 @@ api.interceptors.response.use((config) => {
     return config
 }, async (error) => {
     const originalRequest = error.config;
-     if (error.response.status === 403) {
+     if (error.response.status === 401) {
          try {
              const token_refresh = localStorage.getItem("token_refresh")
              const response = await axios.post(BASE_URL + 'token/refresh/',

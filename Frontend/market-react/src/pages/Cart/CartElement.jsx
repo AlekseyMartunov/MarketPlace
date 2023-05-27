@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styles from "./cart.module.css"
 
-const CartElement = ({item, index, deleteItem}) => {
+const CartElement = ({item, index, deleteItem, updateAmount}) => {
     const [amount, setAmount] = useState(item.amount)
 
     function removeItem() {
@@ -10,11 +10,14 @@ const CartElement = ({item, index, deleteItem}) => {
 
     function increase() {
         setAmount(amount + 1)
+        console.log(amount)
+        updateAmount(index, amount)
     }
 
     function decrease() {
         if (amount > 1) {
             setAmount( amount - 1)
+            updateAmount(index, amount)
         }
     }
 
