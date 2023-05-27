@@ -34,7 +34,7 @@ const Cart = () => {
         let copy = [...items]
         copy[indx].amount = amount
         setItems(copy)
-        console.log(items)
+        const response = await Server.updateCache(copy)
     }
 
     async function createOrder() {
